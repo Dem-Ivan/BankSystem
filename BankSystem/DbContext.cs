@@ -1,5 +1,5 @@
 ﻿
-namespace TestxExample.Infrastructure
+namespace BankSystem.Infrastructure
 {
     public class DbContext
     {
