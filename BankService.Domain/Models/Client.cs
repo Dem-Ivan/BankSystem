@@ -4,31 +4,41 @@ namespace BankSystem.Domain.Models
 {
     public class Client
     {
-        private string _name;
+        private readonly string _name;
         private int _age;
-        public string Name 
+
+        public Client(int age, string name)
         {
-            set
+            Age = age;
+            Name = name;
+        }
+
+        public string Name
+        {
+            private init
             {
-                if (value == null || value == "")
+                if (string.IsNullOrEmpty(value))
                 {
                     throw new InvalidPersonDataException("Имя клиента обязательно.");
                 }
-            }
-            get { return _name; } 
-        }
 
+                _name = value;
+            }
+            get => _name;
+        }
 
         public int Age
         {
-            set
+            private init
             {
-                if (value <18)
+                if (value < 18)
                 {
                     throw new InvalidPersonDataException("Минимальный возраст клиента равен 18 годам.");
                 }
+
+                _age = value;
             }
-            get { return _age; }
+            get => _age;
         }
 
         //TOTO: тут какойто метод характерный для клиента

@@ -7,6 +7,7 @@ namespace BankSystem.App.Services
 {
     public class EmployeeService
     {
+        // ReSharper disable once NotAccessedField.Local
         private IEmployeeRepository _employeeRepository;
         public EmployeeService(IEmployeeRepository employeeRepository)
         {

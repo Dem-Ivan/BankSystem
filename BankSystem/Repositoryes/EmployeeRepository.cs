@@ -7,11 +7,8 @@ namespace BankSystem.Infrastructure.Repositoryes
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private DbContext _dbContext;
-
-        public EmployeeRepository(DbContext dbContext)
+        public EmployeeRepository()
         {
-            _dbContext = dbContext;
         }
 
         public IEnumerable<Employee> Get()
