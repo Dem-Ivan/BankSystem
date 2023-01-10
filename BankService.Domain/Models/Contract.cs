@@ -9,21 +9,37 @@ namespace BankSystem.Domain.Models
 
         private Status _status = Status.created;
         private string _body;
+        private role _signerRole;
 
         public Status Status
         {
-            get { return _status; }            
+            private init
+            {
+                _status = value;
+            }
+
+            get =>_status;             
         }
 
         public  string Body
         {
-            get {return _body;}
+            get => _body;
         }
 
-
-        public Contract()
+        public role SignerRole
         {
-            _status = Status.created;
+            private init
+            {
+                _signerRole = value;
+            }
+
+            get => _signerRole;
+        }
+
+        public Contract( role signerRole)
+        {
+            SignerRole = signerRole;
+            Status = Status.created;            
         }
 
         public void Сomplete(Employee counteragent)
@@ -34,16 +50,15 @@ namespace BankSystem.Domain.Models
 
         public void Sign(Employee signer)
         {          
-            if (signer.Role == Role.director)
+            if (signer.Role == SignerRole)
             {
-                _body = _body + $"Подписан - {signer.Name} {DateTime.Now.ToString()}";
+                _body = _body + $"Подписан - {signer.Name} {DateTime.Now}";
                 _status = Status.created;
             }
             else
             {
-                throw new InvalidRoleException("Подписать договор может только руководитель");
+                throw new InvalidRoleException($"Подписать договор может только сотрудник с ролью {SignerRole}");
             }
         }
-
     }
 }

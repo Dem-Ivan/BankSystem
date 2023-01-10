@@ -4,25 +4,32 @@ namespace BankSystem.Domain.Models
 {
     public class Employee
     {
-        private string _name;
+        private readonly string _name;
         private int _age;
+
+        public Employee(int age, string name, role role)
+        {
+            Age = age;
+            Name = name;
+            Role = role;
+        }
 
         public string Name
         {
-            set
+            private init
             {
-                if (value == null || value == "")
+                if (string.IsNullOrEmpty(value))
                 {
                     throw new InvalidPersonDataException("Имя сотрудника обязательно.");
                 }
                 _name = value;
             }
-            get { return _name; }
+            get => _name;
         }
 
         public int Age
         {
-            set
+            private init
             {
                 if (value < 18)
                 {
@@ -30,10 +37,9 @@ namespace BankSystem.Domain.Models
                 }
                 _age = value;
             }
-            get { return _age; }
+            get => _age; 
         }
 
-        public Role Role { get; set; }
-
+        public role Role { get; set; }
     }
 }

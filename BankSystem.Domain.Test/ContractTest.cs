@@ -8,21 +8,15 @@ namespace BankSystem.Domain.Tests
         [Fact]
         public void ContractRoutetest()
         {
-            var counteragent = new Employee
-            {
-                Name = "Иван",
-                Age = 22,
-                Role = Role.ordinary_employee
-            };
+            var counteragent = new Employee( 22, "Иван", role.ordinary_employee);
 
-            var director = new Employee
-            {
-                Name = "Эдуард Степанович",
-                Age = 45,
-                Role = Role.director
-            };
 
-            var contract = new Contract();
+
+
+            var director = new Employee(45, "Эдуард Степанович", role.director);
+           
+
+            var contract = new Contract(role.director);
 
             contract.Сomplete(counteragent);
             contract.Sign(counteragent);
