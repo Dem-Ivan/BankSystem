@@ -5,6 +5,8 @@ namespace BankSystem.Domain.Models
     {
         created,
         completed,
+        forAcquaintance,
+        forSigning,
         signed
     }
 }

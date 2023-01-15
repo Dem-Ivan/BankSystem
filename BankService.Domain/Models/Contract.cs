@@ -18,10 +18,10 @@ namespace BankSystem.Domain.Models
                 _status = value;
             }
 
-            get =>_status;             
+            get => _status;
         }
 
-        public  string Body
+        public string Body
         {
             get => _body;
         }
@@ -36,29 +36,47 @@ namespace BankSystem.Domain.Models
             get => _signerRole;
         }
 
-        public Contract( role signerRole)
+        public Contract(role signerRole)
         {
             SignerRole = signerRole;
-            Status = Status.created;            
+            Status = Status.created;
         }
 
         public void Сomplete(Employee counteragent)
         {
             _body = $"Контракт с {counteragent.Name} заключен {DateTime.Now}.";
             _status = Status.completed;
+            //TODO: Добавить запись о смене статуса в исорию
+        }
+
+        public void SendforAcquaintance(Client client)
+        {
+            _status = Status.forAcquaintance;
+            //TODO: Добавить запись о смене статуса в исорию
+            //TODO: направить пользователью на ознакомление
+        }
+
+        public void Cquaint(Client client)
+        {
+            if (!_body.Contains(client.Name))
+            {
+                throw new InvalidAccessException("Подтвердить факт ознакомления с контрактом " +
+                    "может только пользователь с которым контракт заключается!");
+            }
+            _status = Status.forSigning;
+            //TODO: Добавить запись о смене статуса в исорию
         }
 
         public void Sign(Employee signer)
-        {          
-            if (signer.Role == SignerRole)
-            {
-                _body = _body + $"Подписан - {signer.Name} {DateTime.Now}";
-                _status = Status.created;
-            }
-            else
+        {
+            if (signer.Role != SignerRole)
             {
                 throw new InvalidRoleException($"Подписать договор может только сотрудник с ролью {SignerRole}");
             }
+
+            _body = _body + $"Подписан - {signer.Name} {DateTime.Now}";
+            _status = Status.signed;
+            //TODO: Добавить запись о смене статуса в исорию
         }
     }
 }
