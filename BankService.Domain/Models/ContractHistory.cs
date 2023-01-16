@@ -10,8 +10,8 @@ namespace BankSystem.Domain.Models
     {
 
         private readonly Guid _contractID;
-        private readonly DateTime _changeDate;
-        private readonly string _statusChange;
+        private readonly DateTime _changeDate = DateTime.Now;
+        private readonly Status _newStatus;
 
         public Guid ContractID
         {
@@ -23,27 +23,23 @@ namespace BankSystem.Domain.Models
         }
 
         public DateTime ChangeDate
-        {            
-            private init
-            {
-                _changeDate = DateTime.Now; 
-            }
-
+        {
             get => _changeDate;
         }
-        public string StatusChange
+
+        public Status NewStatus
         {
             private init
             {
-                _statusChange = value;
+                _newStatus = value;
             }
-            get => _statusChange;
+            get => _newStatus;
         }
 
-        public ContractHistory(Guid contractID, string statusChange)
+        public ContractHistory(Contract currentContract)
         {
-            StatusChange = statusChange;
-            ContractID = contractID;
+            ContractID = currentContract.ContractId;
+            NewStatus = currentContract.Status;
         }
     }
 }

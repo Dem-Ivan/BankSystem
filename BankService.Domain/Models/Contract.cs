@@ -1,15 +1,22 @@
 ﻿
 using BankSystem.Domain.Exceptions;
 using System;
+using System.Collections.Generic;
 
 namespace BankSystem.Domain.Models
 {
     public class Contract
     {
-
+        private Guid _contractId = Guid.NewGuid();
         private Status _status = Status.created;
         private string _body;
         private role _signerRole;
+        private readonly List<ContractHistory> _historyItems;
+
+        public Guid ContractId
+        {
+            get => _contractId;
+        }
 
         public Status Status
         {
@@ -36,23 +43,31 @@ namespace BankSystem.Domain.Models
             get => _signerRole;
         }
 
+        public IReadOnlyCollection<ContractHistory> History => _historyItems;
+
         public Contract(role signerRole)
         {
+
             SignerRole = signerRole;
             Status = Status.created;
+            _historyItems = new List<ContractHistory>();
+
+            UpdateHistori();
         }
 
-        public void Сomplete(Employee counteragent)
+        public void Сomplete(Client counteragent)
         {
             _body = $"Контракт с {counteragent.Name} заключен {DateTime.Now}.";
             _status = Status.completed;
-            //TODO: Добавить запись о смене статуса в исорию
+
+            UpdateHistori();
         }
 
         public void SendforAcquaintance(Client client)
         {
             _status = Status.forAcquaintance;
-            //TODO: Добавить запись о смене статуса в исорию
+
+            UpdateHistori();
             //TODO: направить пользователью на ознакомление
         }
 
@@ -64,7 +79,8 @@ namespace BankSystem.Domain.Models
                     "может только пользователь с которым контракт заключается!");
             }
             _status = Status.forSigning;
-            //TODO: Добавить запись о смене статуса в исорию
+
+            UpdateHistori();
         }
 
         public void Sign(Employee signer)
@@ -76,7 +92,13 @@ namespace BankSystem.Domain.Models
 
             _body = _body + $"Подписан - {signer.Name} {DateTime.Now}";
             _status = Status.signed;
-            //TODO: Добавить запись о смене статуса в исорию
+
+            UpdateHistori();           
+        }
+
+        private void UpdateHistori()
+        {
+            _historyItems.Add(new ContractHistory(this));
         }
     }
 }
