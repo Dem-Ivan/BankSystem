@@ -1,16 +1,17 @@
 ﻿
 using BankSystem.Domain.Exceptions;
+using BankSystem.Domain.Models.Templates;
 using System;
 using System.Collections.Generic;
 
 namespace BankSystem.Domain.Models
 {
-    public class Contract
+    public class Contract 
     {
         private Guid _contractId = Guid.NewGuid();
         private Status _status = Status.created;
         private string _body;
-        private role _signerRole;
+        private ContractTemplate _template;
         private readonly List<ContractHistory> _historyItems;
 
         public Guid ContractId
@@ -35,20 +36,14 @@ namespace BankSystem.Domain.Models
 
         public role SignerRole
         {
-            private init
-            {
-                _signerRole = value;
-            }
-
-            get => _signerRole;
+            get => _template.SignerRole;
         }
 
         public IReadOnlyCollection<ContractHistory> History => _historyItems;
 
-        public Contract(role signerRole)
+        public Contract(ContractTemplate template)
         {
-
-            SignerRole = signerRole;
+            _template = template;
             Status = Status.created;
             _historyItems = new List<ContractHistory>();
 
