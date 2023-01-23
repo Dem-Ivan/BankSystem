@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 
-namespace BankSystem.App.Services
+namespace BankSystem.App.Cases
 {
-    public class EmployeeService
+    public class RegisterEmployeeCase
     {
         // ReSharper disable once NotAccessedField.Local
         private IEmployeeRepository _employeeRepository;
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public RegisterEmployeeCase(IEmployeeRepository employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }

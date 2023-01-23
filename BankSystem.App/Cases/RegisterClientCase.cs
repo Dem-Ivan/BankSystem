@@ -1,14 +1,16 @@
 ﻿using BankSystem.App.Interfaces;
 
-namespace BankSystem.App.Services
+namespace BankSystem.App.Cases
 {
-    public class ClientService
+    public class RegisterClientCase
     {
         // ReSharper disable once NotAccessedField.Local
         private IClientRepository _clientRepository;
-        public ClientService(IClientRepository clientRepository)
+        public RegisterClientCase(IClientRepository clientRepository)
         {
             _clientRepository = clientRepository;
         }
+
+        //CRUD mthods
     }
 }

@@ -61,9 +61,7 @@ namespace BankSystem.Domain.Models
         public void SendforAcquaintance(Client client)
         {
             _status = Status.forAcquaintance;
-
-            UpdateHistori();
-            //TODO: направить пользователью на ознакомление
+            UpdateHistori();            
         }
 
         public void Cquaint(Client client)
