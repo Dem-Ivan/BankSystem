@@ -15,7 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{933E87
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.Domain.Tests", "BankSystem.Domain.Test\BankSystem.Domain.Tests.csproj", "{C0985D2E-0DB3-45B6-A0C6-B236D529B9F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankSystem.API", "BankSystem.API\BankSystem.API.csproj", "{E157F25E-4AA9-48DE-975D-2BF29506C79A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.API", "BankSystem.API\BankSystem.API.csproj", "{E157F25E-4AA9-48DE-975D-2BF29506C79A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankSystem.App.Tests", "BankSystem.App.Tests\BankSystem.App.Tests.csproj", "{62E25F90-DF26-40B7-9931-1FD11C0CBCA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{E157F25E-4AA9-48DE-975D-2BF29506C79A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E157F25E-4AA9-48DE-975D-2BF29506C79A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E157F25E-4AA9-48DE-975D-2BF29506C79A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E25F90-DF26-40B7-9931-1FD11C0CBCA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E25F90-DF26-40B7-9931-1FD11C0CBCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E25F90-DF26-40B7-9931-1FD11C0CBCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E25F90-DF26-40B7-9931-1FD11C0CBCA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{794E74FD-9266-4A8A-8307-EAA2E30CD9E6} = {CC271144-5ECE-400C-940D-6D217FA67FEB}
 		{C0985D2E-0DB3-45B6-A0C6-B236D529B9F9} = {933E8773-5E64-4421-ADCD-90914F2DA2B7}
 		{E157F25E-4AA9-48DE-975D-2BF29506C79A} = {9AEE8368-1254-47E7-9832-9BDBCE2524BA}
+		{62E25F90-DF26-40B7-9931-1FD11C0CBCA9} = {CC271144-5ECE-400C-940D-6D217FA67FEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FF15F96-FB85-40FC-B8A8-FF52B166A489}

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using BankSystem.Domain.Models;
 
 namespace BankSystem.App.Interfaces
@@ -7,8 +6,8 @@ namespace BankSystem.App.Interfaces
     public interface IClientRepository
     {       
         Client Get(Guid clientId);
-        void Add(Client employee);
-        void Update(Client employee);
-        void Delete(Guid employeeId);
+        void Add(Client client);
+        void Update(Client client);
+        void Delete(Guid clientId);
     }
 }

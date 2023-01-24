@@ -1,9 +1,11 @@
-﻿using BankSystem.Domain.Exceptions;
+﻿using System;
+using BankSystem.Domain.Exceptions;
 
 namespace BankSystem.Domain.Models
 {
     public class Client
     {
+        private Guid _clientId = Guid.NewGuid();
         private readonly string _name;
         private int _age;
 
@@ -11,6 +13,11 @@ namespace BankSystem.Domain.Models
         {
             Age = age;
             Name = name;
+        }
+
+        public Guid ClientId
+        {
+            get => _clientId;
         }
 
         public string Name
