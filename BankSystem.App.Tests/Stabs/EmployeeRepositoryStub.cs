@@ -4,11 +4,11 @@ using System.Linq;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 
-namespace BankSystem.App.Tests
+namespace BankSystem.App.Tests.Stabs
 {
     public class EmployeeRepositoryStub : IEmployeeRepository
     {
-        private List<Employee> _employees;
+        private List<Employee> _employees = new List<Employee>();
 
         public void Add(Employee employee)
         {
@@ -22,7 +22,7 @@ namespace BankSystem.App.Tests
 
         public Employee Get(Guid employeeId)
         {
-            return _employees.FirstOrDefault(x => x.EmployeeId == employeeId);
+            return _employees.FirstOrDefault(x => x.Id == employeeId);
         }
 
         public void Update(Employee employee)

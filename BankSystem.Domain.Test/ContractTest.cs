@@ -11,13 +11,14 @@ namespace BankSystem.Domain.Tests
         {
             //Arrange
 
-            var counteragent = new Client(22, "Иван");           
+            var counteragent = new Client(22, "Иван");
+            var bankOperator = new Employee(33, "Петрова", role.ordinary_employee);
             var signer = new Employee(45, "Эдуард Степанович", role.director);
             var template = ContractTemplate.GetInstance();
             template.SignerRole = role.director;
 
             //Act
-            var contract = template.GetNewContract(); // 1)создан           
+            var contract = template.GetNewContract(bankOperator); // 1)создан           
             contract.Сomplete(counteragent); //2)запонен
             contract.SendforAcquaintance(); //3) отправлен на ознакомление
             contract.Cquaint(counteragent); //4) контрагент подтвердил (ознакомился) новый статус "на подписание"

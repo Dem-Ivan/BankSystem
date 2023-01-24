@@ -6,17 +6,8 @@ using System.Collections.Generic;
 namespace BankSystem.API.Repositoryes
 {
     public class EmployeeRepository : IEmployeeRepository
-    {
-        public EmployeeRepository()
-        {
-        }
-
-        public IEnumerable<Employee> Get()
-        {
-            //обращаемся к _dbContext,
-            //получаем и возвращяем коллекцию сотрудников
-            return null;
-        }
+    {      
+        
         public void Add(Employee employee)
         {
             
@@ -30,6 +21,11 @@ namespace BankSystem.API.Repositoryes
         public void Update(Employee employee)
         {
            
+        }
+
+        public Employee Get(Guid employeeId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

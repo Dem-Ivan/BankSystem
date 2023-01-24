@@ -2,7 +2,7 @@
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 
-namespace BankSystem.App.Tests
+namespace BankSystem.App.Tests.Stabs
 {
     public class ContractRepositoryStub : IContractRepository
     {
@@ -24,7 +24,7 @@ namespace BankSystem.App.Tests
 
         public void Update(Contract contract)
         {
-            throw new NotImplementedException();
+            _contract = contract;
         }
     }
 }

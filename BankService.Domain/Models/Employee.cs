@@ -5,7 +5,7 @@ namespace BankSystem.Domain.Models
 {
     public class Employee
     {
-        private Guid _employeeId = Guid.NewGuid();
+        private Guid _id = Guid.NewGuid();
         private readonly string _name;
         private int _age;
 
@@ -16,9 +16,9 @@ namespace BankSystem.Domain.Models
             Role = role;
         }
 
-        public Guid EmployeeId
+        public Guid Id
         {
-            get => _employeeId;
+            get => _id;
         }
 
         public string Name

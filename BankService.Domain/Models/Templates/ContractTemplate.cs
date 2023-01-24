@@ -9,7 +9,7 @@ namespace BankSystem.Domain.Models.Templates
     public class ContractTemplate
     {
         private static ContractTemplate _template;
-        protected role _signerRole;
+        private role _signerRole;
 
         public role SignerRole
         {
@@ -29,9 +29,9 @@ namespace BankSystem.Domain.Models.Templates
             return _template;
         }
 
-        public Contract GetNewContract()
+        public Contract GetNewContract(Employee author)
         {
-            return new Contract(this);
+            return new Contract(this, author);
         }
     }
 }

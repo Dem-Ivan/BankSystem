@@ -24,12 +24,15 @@ namespace BankSystem.App.Cases
         }
 
         //TODO: метод вызывается в контроллере с аутентификацией сотрудника
-        public Contract CreateNewcontract(ContractTemplate template)
+        public Guid CreateNewcontract(ContractTemplate template, Employee author)
         {
-            return template.GetNewContract();
+            var contract =  template.GetNewContract(author);
+            _contractRepository.Update(contract);
+
+            return contract.Id;
         }
 
-        public ContractResponse CompleteContract(Guid counteragentId, Contract contract)
+        public ContractResponse CompleteContract(Guid counteragentId, Guid contractId)
         {
             var counteragent = _clientRepository.Get(counteragentId);
             if (counteragent == null)
@@ -37,11 +40,17 @@ namespace BankSystem.App.Cases
                 throw new NotFoundException($"Клиент с идентификатором {counteragentId} не зарегистрирован в системе.");
             }
 
+            var contract = _contractRepository.Get(contractId);
+            if (contract == null)
+            {
+                throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
+            }
+
             contract.Сomplete(counteragent);
             contract.SendforAcquaintance();
             _contractRepository.Update(contract);
 
-            return _mapper.Map(contract, new ContractResponse()); // TODO: проверить рабу маппера
+            return _mapper.Map<ContractResponse>(contract); // TODO: проверить рабу маппера
         }
 
         public void СonfirmAcquaintance(Guid counteragentId, Guid contractId)

@@ -8,16 +8,16 @@ namespace BankSystem.Domain.Models
 {
     public class Contract 
     {
-        private Guid _contractId = Guid.NewGuid();
+        private Guid _id = Guid.NewGuid();
         private Status _status = Status.created;
         private string _body;
         private ContractTemplate _template;
         private readonly List<ContractHistory> _historyItems;
         private readonly Employee _author;
 
-        public Guid ContractId
+        public Guid Id
         {
-            get => _contractId;
+            get => _id;
         }
 
         public Status Status
@@ -55,10 +55,10 @@ namespace BankSystem.Domain.Models
 
         public Contract(ContractTemplate template, Employee author)
         {
-            _template = template;
-            Status = Status.created;
+            _template = template;            
             _historyItems = new List<ContractHistory>();
             _author = author;
+            Status = Status.created;
 
             UpdateHistori();
         }
