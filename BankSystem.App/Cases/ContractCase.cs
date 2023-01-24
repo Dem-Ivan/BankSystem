@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BankSystem.App.DTO;
 using BankSystem.App.Exceptions;
 using BankSystem.App.Interfaces;
+using BankSystem.Domain.Exceptions;
 using BankSystem.Domain.Models;
 using BankSystem.Domain.Models.Templates;
+using AutoMapper;
 
 namespace BankSystem.App.Cases
 {
@@ -14,55 +13,94 @@ namespace BankSystem.App.Cases
     {
         private IClientRepository _clientRepository;
         private IEmployeeRepository _employeeRepository;
-
-        public ContractCase(IClientRepository clientRepository, IEmployeeRepository employeeRepository)
+        private IContractRepository _contractRepository;
+        private readonly IMapper _mapper;
+        public ContractCase(IClientRepository clientRepository, IEmployeeRepository employeeRepository, IContractRepository contractRepository, IMapper mapper)
         {
             _clientRepository = clientRepository;
             _employeeRepository = employeeRepository;
+            _contractRepository = contractRepository;
+            _mapper = mapper;
         }
+
         //TODO: метод вызывается в контроллере с аутентификацией сотрудника
         public Contract CreateNewcontract(ContractTemplate template)
         {
             return template.GetNewContract();
         }
 
-        public Contract CompleteContract(Guid counteragentId, Contract contract)
+        public ContractResponse CompleteContract(Guid counteragentId, Contract contract)
         {
-            var counteragent = _clientRepository.GetClient(counteragentId);
+            var counteragent = _clientRepository.Get(counteragentId);
             if (counteragent == null)
             {
                 throw new NotFoundException($"Клиент с идентификатором {counteragentId} не зарегистрирован в системе.");
             }
 
             contract.Сomplete(counteragent);
-            return contract;
+            contract.SendforAcquaintance();
+            _contractRepository.Update(contract);
+
+            return _mapper.Map(contract, new ContractResponse()); // TODO: проверить рабу маппера
         }
 
-        public Contract SendContractForClient(Guid counteragentId, Contract contract)
+        public void СonfirmAcquaintance(Guid counteragentId, Guid contractId)
         {
-            var counteragent = _clientRepository.GetClient(counteragentId);
+            var contract = _contractRepository.Get(contractId);
+            if (contract == null)
+            {
+                throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
+            }
+
+            var counteragent = _clientRepository.Get(counteragentId);
             if (counteragent == null)
             {
                 throw new NotFoundException($"Клиент с идентификатором {counteragentId} не зарегистрирован в системе.");
             }
 
-            contract.SendforAcquaintance(counteragent);
-            //делавем запрос клиенту на одобрение контракта, отправляем контракт на ознакомление
-            //если пользователь одобрил меняем статус
             contract.Cquaint(counteragent);
-            return contract;
+            _contractRepository.Update(contract);
         }
 
-        public Contract SendForSigner(Guid signerId, Contract contract)
+        public void SignContract(Guid signerId, Guid contractId)
         {
-            var signer = _employeeRepository.GetEmployee(signerId);
+            var contract = _contractRepository.Get(contractId);
+            if (contract == null)
+            {
+                throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
+            }
+
+            var signer = _employeeRepository.Get(signerId);
             if (signer == null)
             {
                 throw new NotFoundException($"Сотрудник с идентификатором {signerId} не зарегистрирован в системе.");
             }
 
             contract.Sign(signer);
-            return contract;
+            _contractRepository.Update(contract);           
+        }
+
+        public void UpdateContractBody(Guid contractId, Guid redactorId, string newBody)
+        {
+            var contract = _contractRepository.Get(contractId);
+            if (contract == null)
+            {
+                throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
+            }
+
+            var redactor = _employeeRepository.Get(redactorId);
+            if (redactor == null)
+            {
+                throw new NotFoundException($"Сотрудник с идентификатором {redactorId} не зарегистрирован в системе.");
+            }
+
+            if (contract.Author.Name != redactor.Name)
+            {
+                throw new InvalidAccessException($"Сотрудник {redactor.Name} не является автором кнтракта! Редактировать контракт может только его автор.");
+            }
+
+            contract.UpdateBody(newBody);
+            _contractRepository.Update(contract);
         }
     }
 }

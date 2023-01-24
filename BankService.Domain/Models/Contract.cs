@@ -13,6 +13,7 @@ namespace BankSystem.Domain.Models
         private string _body;
         private ContractTemplate _template;
         private readonly List<ContractHistory> _historyItems;
+        private readonly Employee _author;
 
         public Guid ContractId
         {
@@ -39,13 +40,25 @@ namespace BankSystem.Domain.Models
             get => _template.SignerRole;
         }
 
+        public Employee Author
+        {
+            private init
+            {
+                _author = value;
+            }
+
+            get => _author;
+        }
+
+
         public IReadOnlyCollection<ContractHistory> History => _historyItems;
 
-        public Contract(ContractTemplate template)
+        public Contract(ContractTemplate template, Employee author)
         {
             _template = template;
             Status = Status.created;
             _historyItems = new List<ContractHistory>();
+            _author = author;
 
             UpdateHistori();
         }
@@ -58,7 +71,7 @@ namespace BankSystem.Domain.Models
             UpdateHistori();
         }
 
-        public void SendforAcquaintance(Client client)
+        public void SendforAcquaintance()
         {
             _status = Status.forAcquaintance;
             UpdateHistori();            
@@ -89,9 +102,18 @@ namespace BankSystem.Domain.Models
             UpdateHistori();           
         }
 
+
+        public void UpdateBody(string newBody)
+        {
+            //TODO: подумать, напрашивается валидация на соответствие автора и радактора
+            _body = newBody;
+        }
+
         private void UpdateHistori()
         {
             _historyItems.Add(new ContractHistory(this));
         }
+
+        
     }
 }
