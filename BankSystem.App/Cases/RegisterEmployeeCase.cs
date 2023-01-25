@@ -1,28 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
+using BankSystem.App.DTO;
+using BankSystem.App.Exceptions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 
 namespace BankSystem.App.Cases
 {
     public class RegisterEmployeeCase
-    {
-        // ReSharper disable once NotAccessedField.Local
+    {        
         private IEmployeeRepository _employeeRepository;
-        public RegisterEmployeeCase(IEmployeeRepository employeeRepository)
+        private readonly IMapper _mapper;
+
+        public RegisterEmployeeCase(IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Employee> GetEmployees()
+        public EmployeeResponse Get(Guid employeeId)
         {
-            //обращаемся к _employeeRepository,
-            //получаем и возвращяем коллекцию сотрудников
-            return null;
-        }
-        public void AddEmploye(Employee employee)
-        {
+            var employee = _employeeRepository.Get(employeeId);
+            if (employee == null)
+            {
+                throw new NotFoundException($"Контракт с идентификатором {employeeId} не зарегистрирован в системе.");
+            }
 
+            var mappedEmployee = _mapper.Map(employee, new EmployeeResponse());
+
+            return mappedEmployee;
+        }
+
+        public Guid AddEmploye(EmployeeRequest employee)
+        {
+            var mappedEmployee = _mapper.Map<Employee>(employee);
+
+            _employeeRepository.Add(mappedEmployee);
+
+            return mappedEmployee.Id;
         }
 
         public void DeleteEmploye(Guid employeeId)
@@ -30,7 +46,7 @@ namespace BankSystem.App.Cases
 
         }
 
-        public void UpdateEmploye(Employee employee)
+        public void UpdateEmploye(EmployeeRequest employee)
         {
 
         }

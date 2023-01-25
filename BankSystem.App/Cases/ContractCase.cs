@@ -50,7 +50,8 @@ namespace BankSystem.App.Cases
             contract.SendforAcquaintance();
             _contractRepository.Update(contract);
 
-            return _mapper.Map<ContractResponse>(contract); // TODO: проверить рабу маппера
+            var result = _mapper.Map<ContractResponse>(contract); // TODO: проверить рабу маппера            
+            return result;
         }
 
         public void СonfirmAcquaintance(Guid counteragentId, Guid contractId)
