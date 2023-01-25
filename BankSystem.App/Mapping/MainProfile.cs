@@ -11,11 +11,7 @@ namespace BankSystem.App.Mapping
             CreateMap<EmployeeRequest, Employee>(MemberList.Source);
             CreateMap<Employee, EmployeeResponse>(MemberList.Source);
 
-            CreateMap<Contract, ContractResponse>()
-                .ForMember(x => x.Status, exp => exp.MapFrom(x => x.Status))
-                .ForMember(x => x.Id, exp => exp.MapFrom(x => x.Id))
-                ;
-
+            CreateMap<Contract, ContractResponse>(MemberList.Source);               
         }
     }
 }

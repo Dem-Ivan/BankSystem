@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BankSystem.App.Cases;
+using BankSystem.App.DTO;
 using BankSystem.App.Mapping;
 using BankSystem.App.Tests.Stabs;
 using BankSystem.Domain.Models;
@@ -14,6 +15,9 @@ namespace BankSystem.App.Tests
         private ClientRepositoryStub _clientRepository = new ClientRepositoryStub();
         private EmployeeRepositoryStub _employeeRepository = new EmployeeRepositoryStub();
         private ContractRepositoryStub _contractRepository = new ContractRepositoryStub();
+
+        //private static MapperConfiguration _mapperConfig = new MapperConfiguration(cfg =>
+        //{ cfg.CreateMap<Contract, ContractResponse>(MemberList.Source); });
 
         private static MapperConfiguration _mapperConfig = new MapperConfiguration(cfg => { cfg.AddProfile<MainProfile>(); });
         private readonly IMapper _mapper = _mapperConfig.CreateMapper();
@@ -35,10 +39,10 @@ namespace BankSystem.App.Tests
             var contractCase = new ContractCase(_clientRepository, _employeeRepository, _contractRepository, _mapper);
 
             //Act
-            var contractId = contractCase.CreateNewcontract(_template, bankOperator); //1)
+            var contractId = contractCase.CreateNewcontract(_template, bankOperator.Id); //1)
             var completedContract = contractCase.CompleteContract(counteragent.Id, contractId);//2)
             //фронт показывает тело контракта клиенту и ожидает нажатия на кнопку "Одобрить"
-            //если кнопка "Одобрить" была надата - вызываем метод СonfirmAcquaintance
+            //если кнопка "Одобрить" была нажата - вызываем метод СonfirmAcquaintance
             contractCase.СonfirmAcquaintance(counteragent.Id, contractId); //3)
             contractCase.SignContract(signer.Id, contractId);//4)
             
