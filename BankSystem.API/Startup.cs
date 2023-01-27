@@ -33,7 +33,11 @@ namespace BankSystem.API
             });
             services.AddAutoMapper(typeof(MainProfile));
             services.AddScoped<RegisterEmployeeCase>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<RegisterClientCase>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>(); 
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IContractRepository, ContractRepository>();
+            services.AddScoped<ContractCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
