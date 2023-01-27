@@ -48,6 +48,8 @@ namespace BankSystem.Domain.Models
             get => _age;
         }
 
+
+        public Contract Contract { get; set; } 
         //TOTO: тут какойто метод характерный для клиента
     }
 }

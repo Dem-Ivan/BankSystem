@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using BankSystem.Domain.Exceptions;
 
 namespace BankSystem.Domain.Models
@@ -8,6 +10,7 @@ namespace BankSystem.Domain.Models
         private Guid _id = Guid.NewGuid();
         private readonly string _name;
         private int _age;
+
 
         public Employee(int age, string name, role role)
         {
@@ -48,5 +51,7 @@ namespace BankSystem.Domain.Models
         }
 
         public role Role { get; set; }
+
+        public ICollection<Contract> Contracts { get; set; }
     }
 }

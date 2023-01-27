@@ -14,6 +14,7 @@ namespace BankSystem.Domain.Models
         private ContractTemplate _template;
         private readonly List<ContractHistory> _historyItems;
         private readonly Employee _author;
+        private  Client _counteragent;
 
         public Guid Id
         {
@@ -50,6 +51,12 @@ namespace BankSystem.Domain.Models
             get => _author;
         }
 
+        public Guid CounteragentId { get; }
+        public Client Counteragent
+        {
+            get => _counteragent;
+        }
+
 
         public IReadOnlyCollection<ContractHistory> History => _historyItems;
 
@@ -65,7 +72,8 @@ namespace BankSystem.Domain.Models
 
         public void Сomplete(Client counteragent)
         {
-            _body = $"Контракт с {counteragent.Name} заключен {DateTime.Now}.";
+            _counteragent = counteragent;
+            _body = $"Контракт с {_counteragent.Name} заключен {DateTime.Now}.";            
             _status = Status.completed;
 
             UpdateHistori();
