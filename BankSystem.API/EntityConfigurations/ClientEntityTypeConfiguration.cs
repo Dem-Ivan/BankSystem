@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using BankSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -13,7 +11,7 @@ namespace BankSystem.API.EntityConfigurations
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-            builder.ToTable(nameof(Employee));
+            builder.ToTable(nameof(Client));
 
             builder.Property(e => e.Id);
             builder.Property(e => e.Name).IsRequired();

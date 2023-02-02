@@ -41,6 +41,7 @@ namespace BankSystem.Domain.Models
             get => _template.SignerRole;
         }
 
+        public Guid AuthorId { get; }
         public Employee Author
         {
             private init
@@ -59,6 +60,11 @@ namespace BankSystem.Domain.Models
 
 
         public IReadOnlyCollection<ContractHistory> History => _historyItems;
+
+        public Contract()
+        {
+
+        }
 
         public Contract(ContractTemplate template, Employee author)
         {

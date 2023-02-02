@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankSystem.Domain.Models
 {
     public class ContractHistory
     {
-
-        private readonly Guid _contractID;
+        private Guid _id = Guid.NewGuid();
         private readonly DateTime _changeDate = DateTime.Now;
         private readonly Status _newStatus;
 
-        public Guid ContractID
+        public Guid Id
         {
-            private init
-            {
-                _contractID = value;
-            }
-            get => _contractID;
+            get => _id;
         }
+
+        public Guid ContractId { get; }
+        public Contract Contract { get; set; }
 
         public DateTime ChangeDate
         {
@@ -36,9 +30,14 @@ namespace BankSystem.Domain.Models
             get => _newStatus;
         }
 
+        public ContractHistory()
+        {
+
+        }
+
         public ContractHistory(Contract currentContract)
         {
-            ContractID = currentContract.Id;
+            Contract = currentContract;
             NewStatus = currentContract.Status;
         }
     }
