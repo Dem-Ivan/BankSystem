@@ -11,13 +11,13 @@ namespace BankSystem.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmployeeContreoller : ControllerBase
+    public class EmployeeController : ControllerBase
     {
         RegisterEmployeeCase _employeeCase;
         ContractTemplate _template = ContractTemplate.GetInstance();
         ContractCase _contractCase;
 
-        public EmployeeContreoller(RegisterEmployeeCase employeeCase, ContractCase contractCase)
+        public EmployeeController(RegisterEmployeeCase employeeCase, ContractCase contractCase)
         {
             _employeeCase = employeeCase;
             _contractCase = contractCase;
@@ -29,13 +29,13 @@ namespace BankSystem.API.Controllers
             return _employeeCase.Get(employeeId);
         }
 
-        //[HttpPost]
-        //public ActionResult<Guid> AddEmployee([FromBody] EmployeeRequest employeeReq)
-        //{
-        //    return _employeeCase.AddEmploye(employeeReq);
-        //}
-
         [HttpPost]
+        public ActionResult<Guid> AddEmployee([FromBody] EmployeeRequest employeeReq)
+        {
+            return _employeeCase.AddEmployee(employeeReq);
+        }
+
+        [HttpPost("createNewContractWith")]       
         public ActionResult<ContractResponse> CreateNewContractWith([FromBody] Guid clientId, Guid authorId)
         {//при наличии аутентификации - authorId берем из контекста запроса
 

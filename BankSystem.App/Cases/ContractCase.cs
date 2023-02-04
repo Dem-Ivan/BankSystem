@@ -33,7 +33,8 @@ namespace BankSystem.App.Cases
             }
 
             var contract =  template.GetNewContract(author);
-            _contractRepository.Update(contract);
+            _contractRepository.Add(contract);
+            _contractRepository.Save();
 
             return contract.Id;
         }
@@ -55,6 +56,7 @@ namespace BankSystem.App.Cases
             contract.Сomplete(counteragent);
             contract.SendforAcquaintance();
             _contractRepository.Update(contract);
+            _contractRepository.Save();
 
             var result = _mapper.Map<ContractResponse>(contract); // TODO: проверить рабу маппера            
             return result;
@@ -76,6 +78,7 @@ namespace BankSystem.App.Cases
 
             contract.Cquaint(counteragent);
             _contractRepository.Update(contract);
+            _contractRepository.Save();
 
             return contract.Id;
         }
@@ -95,7 +98,8 @@ namespace BankSystem.App.Cases
             }
 
             contract.Sign(signer);
-            _contractRepository.Update(contract);           
+            _contractRepository.Update(contract);
+            _contractRepository.Save();
         }
 
         public void UpdateContractBody(Guid contractId, Guid redactorId, string newBody)
@@ -119,6 +123,7 @@ namespace BankSystem.App.Cases
 
             contract.UpdateBody(newBody);
             _contractRepository.Update(contract);
+            _contractRepository.Save();
         }
     }
 }

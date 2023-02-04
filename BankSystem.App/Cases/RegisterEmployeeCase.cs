@@ -32,18 +32,19 @@ namespace BankSystem.App.Cases
             return mappedEmployee;
         }
 
-        public Guid AddEmploye(EmployeeRequest employee)
+        public Guid AddEmployee(EmployeeRequest employee)
         {
             var mappedEmployee = _mapper.Map<Employee>(employee);
 
             _employeeRepository.Add(mappedEmployee);
+            _employeeRepository.Save();
 
             return mappedEmployee.Id;
         }
 
         public void DeleteEmploye(Guid employeeId)
         {
-
+            
         }
 
         public void UpdateEmploye(EmployeeRequest employee)

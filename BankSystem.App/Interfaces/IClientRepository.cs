@@ -9,5 +9,6 @@ namespace BankSystem.App.Interfaces
         void Add(Client client);
         void Update(Client client);
         void Delete(Guid clientId);
+        void Save();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace BankSystem.Domain.Models
 {
-    public class ContractHistory
+    public class ContractHistoryElement
     {
         private Guid _id = Guid.NewGuid();
         private readonly DateTime _changeDate = DateTime.Now;
@@ -30,12 +30,12 @@ namespace BankSystem.Domain.Models
             get => _newStatus;
         }
 
-        public ContractHistory()
+        public ContractHistoryElement()
         {
 
         }
 
-        public ContractHistory(Contract currentContract)
+        public ContractHistoryElement(Contract currentContract)
         {
             Contract = currentContract;
             NewStatus = currentContract.Status;

@@ -10,5 +10,6 @@ namespace BankSystem.App.Interfaces
         void Add(Employee employee);
         void Update(Employee employee);
         void Delete(Guid employeeId);
+        void Save();
     }
 }

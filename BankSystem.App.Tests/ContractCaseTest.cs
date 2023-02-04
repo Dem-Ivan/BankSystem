@@ -10,8 +10,7 @@ using Xunit;
 namespace BankSystem.App.Tests
 {
     public class ContractCaseTest
-    {
-        ContractTemplate _template = ContractTemplate.GetInstance();
+    {       
         private ClientRepositoryStub _clientRepository = new ClientRepositoryStub();
         private EmployeeRepositoryStub _employeeRepository = new EmployeeRepositoryStub();
         private ContractRepositoryStub _contractRepository = new ContractRepositoryStub();
@@ -27,6 +26,7 @@ namespace BankSystem.App.Tests
         public void FullCaseCheck()
         {
             //Arrange            
+            var template = ContractTemplate.GetInstance();
             var counteragent = new Client(22, "Иван");
             var bankOperator = new Employee(33, "Петрова", role.ordinary_employee);
             var signer = new Employee(45, "Эдуард Степанович", role.director);
@@ -34,12 +34,12 @@ namespace BankSystem.App.Tests
             _clientRepository.Add(counteragent);
             _employeeRepository.Add(bankOperator);
             _employeeRepository.Add(signer);
-            _template.SignerRole = role.director;
+            template.SignerRole = role.director;
 
             var contractCase = new ContractCase(_clientRepository, _employeeRepository, _contractRepository, _mapper);
 
             //Act
-            var contractId = contractCase.CreateNewcontract(_template, bankOperator.Id); //1)
+            var contractId = contractCase.CreateNewcontract(template, bankOperator.Id); //1)
             var completedContract = contractCase.CompleteContract(counteragent.Id, contractId);//2)
             //фронт показывает тело контракта клиенту и ожидает нажатия на кнопку "Одобрить"
             //если кнопка "Одобрить" была нажата - вызываем метод СonfirmAcquaintance

@@ -25,6 +25,11 @@ namespace BankSystem.App.Tests.Stabs
             return _employees.FirstOrDefault(x => x.Id == employeeId);
         }
 
+        public void Save()
+        {
+            
+        }
+
         public void Update(Employee employee)
         {
             throw new NotImplementedException();

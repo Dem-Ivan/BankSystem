@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BankSystem.API.EntityConfigurations
 {
-    public class ContractHistoryEntityTypeConfiguration : IEntityTypeConfiguration<ContractHistory>
+    public class ContractHistoryEntityTypeConfiguration : IEntityTypeConfiguration<ContractHistoryElement>
     {    
-        public void Configure(EntityTypeBuilder<ContractHistory> builder)
+        public void Configure(EntityTypeBuilder<ContractHistoryElement> builder)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-            builder.ToTable(nameof(ContractHistory));
+            builder.ToTable(nameof(ContractHistoryElement));
 
             builder.Property(e => e.Id);            
             builder.Property(e => e.ChangeDate);

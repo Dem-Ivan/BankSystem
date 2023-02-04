@@ -12,7 +12,7 @@ namespace BankSystem.Domain.Models
         private Status _status = Status.created;
         private string _body;
         private ContractTemplate _template;
-        private readonly List<ContractHistory> _historyItems;
+        private readonly List<ContractHistoryElement> _historyItems;
         private readonly Employee _author;
         private  Client _counteragent;
 
@@ -41,7 +41,8 @@ namespace BankSystem.Domain.Models
             get => _template.SignerRole;
         }
 
-        public Guid AuthorId { get; }
+        public Guid AuthorId { get; set; }
+        
         public Employee Author
         {
             private init
@@ -52,14 +53,16 @@ namespace BankSystem.Domain.Models
             get => _author;
         }
 
-        public Guid CounteragentId { get; }
+        public Guid CounteragentId { get; set; }
+        
+
         public Client Counteragent
         {
             get => _counteragent;
         }
 
 
-        public IReadOnlyCollection<ContractHistory> History => _historyItems;
+        public IReadOnlyCollection<ContractHistoryElement> History => _historyItems;
 
         public Contract()
         {
@@ -69,7 +72,8 @@ namespace BankSystem.Domain.Models
         public Contract(ContractTemplate template, Employee author)
         {
             _template = template;            
-            _historyItems = new List<ContractHistory>();
+            _historyItems = new List<ContractHistoryElement>();
+            AuthorId = author.Id;
             _author = author;
             Status = Status.created;
 
@@ -78,6 +82,7 @@ namespace BankSystem.Domain.Models
 
         public void Сomplete(Client counteragent)
         {
+            CounteragentId = counteragent.Id;
             _counteragent = counteragent;
             _body = $"Контракт с {_counteragent.Name} заключен {DateTime.Now}.";            
             _status = Status.completed;
@@ -125,7 +130,7 @@ namespace BankSystem.Domain.Models
 
         private void UpdateHistori()
         {
-            _historyItems.Add(new ContractHistory(this));
+            _historyItems.Add(new ContractHistoryElement(this));
         }
 
         

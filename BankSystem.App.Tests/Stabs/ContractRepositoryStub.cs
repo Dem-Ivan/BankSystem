@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 
@@ -12,6 +13,11 @@ namespace BankSystem.App.Tests.Stabs
             _contract = contract;
         }
 
+        public void AddContractHistoryElement(ContractHistoryElement contractHistoryElement)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(Guid contractId)
         {
             throw new NotImplementedException();
@@ -20,6 +26,16 @@ namespace BankSystem.App.Tests.Stabs
         public Contract Get(Guid contractId)
         {
             return _contract;
+        }
+
+        public IEnumerable<ContractHistoryElement> GetContractHistory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Save()
+        {
+            
         }
 
         public void Update(Contract contract)

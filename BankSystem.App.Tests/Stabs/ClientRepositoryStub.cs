@@ -23,6 +23,11 @@ namespace BankSystem.App.Tests.Stabs
             return _client;
         }
 
+        public void Save()
+        {
+            
+        }
+
         public void Update(Client client)
         {
             throw new NotImplementedException();

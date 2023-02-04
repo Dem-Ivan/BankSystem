@@ -11,6 +11,9 @@ namespace BankSystem.App.Mapping
             CreateMap<EmployeeRequest, Employee>(MemberList.Source);
             CreateMap<Employee, EmployeeResponse>(MemberList.Source);
 
+            CreateMap<ClientRequest, Client>(MemberList.Source);
+            CreateMap<Client, ClientResponse>(MemberList.Source);
+
             CreateMap<Contract, ContractResponse>(MemberList.Source);               
         }
     }
