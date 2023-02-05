@@ -20,6 +20,7 @@ namespace BankSystem.API.EntityConfigurations
 
             builder.HasKey(e => e.Id);
 
+            builder.HasMany(co => co.History);
             builder.HasOne(co => co.Author).WithMany(em => em.Contracts).HasForeignKey(co => co.AuthorId);            
             builder.HasOne(co => co.Counteragent).WithOne(cl => cl.Contract).HasForeignKey<Contract>(cl => cl.Id);
         }        

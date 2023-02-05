@@ -29,9 +29,9 @@ namespace BankSystem.Domain.Models.Templates
             return _template;
         }
 
-        public Contract GetNewContract(Employee author)
+        public Contract GetNewContract(Employee author, Client counteragent)
         {
-            return new Contract(this, author);
+            return new Contract(this, author, counteragent);
         }
     }
 }

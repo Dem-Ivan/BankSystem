@@ -13,16 +13,11 @@ namespace BankSystem.API
         public DbSet<Contract> Contract => Set<Contract>();
         public DbSet<ContractHistoryElement> ContractHistory => Set<ContractHistoryElement>();
 
-        public BankSystemDbContext()
+        public BankSystemDbContext(DbContextOptions<BankSystemDbContext> options) : base(options)
         {
 
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=bankSystemDb2023;Username=postgres;Password=postgres");
-        }
-
+              
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

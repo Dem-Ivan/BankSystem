@@ -24,15 +24,21 @@ namespace BankSystem.App.Cases
         }
 
         //TODO: метод вызывается в контроллере с аутентификацией сотрудника
-        public Guid CreateNewcontract(ContractTemplate template, Guid authorId)
+        public Guid CreateNewcontract(ContractTemplate template, Guid authorId, Guid counteragentId)
         {
             var author = _employeeRepository.Get(authorId);
             if (author == null)
             {
-                throw new NotFoundException($"Клиент с идентификатором {authorId} не зарегистрирован в системе.");
+                throw new NotFoundException($"Сотруднк с идентификатором {authorId} не зарегистрирован в системе.");
             }
 
-            var contract =  template.GetNewContract(author);
+            var counteragent = _clientRepository.Get(counteragentId);
+            if (counteragent == null)
+            {
+                throw new NotFoundException($"Клиент с идентификатором {counteragentId} не зарегистрирован в системе.");
+            }
+
+            var contract =  template.GetNewContract(author, counteragent);
             _contractRepository.Add(contract);
             _contractRepository.Save();
 

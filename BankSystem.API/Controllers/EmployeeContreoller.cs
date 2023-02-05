@@ -39,7 +39,7 @@ namespace BankSystem.API.Controllers
         public ActionResult<ContractResponse> CreateNewContractWith([FromBody] Guid clientId, Guid authorId)
         {//при наличии аутентификации - authorId берем из контекста запроса
 
-            var contractId = _contractCase.CreateNewcontract(_template, authorId);
+            var contractId = _contractCase.CreateNewcontract(_template, authorId, clientId);
             return _contractCase.CompleteContract(clientId, contractId);
         }
 

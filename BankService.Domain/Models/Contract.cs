@@ -69,31 +69,31 @@ namespace BankSystem.Domain.Models
 
         }
 
-        public Contract(ContractTemplate template, Employee author)
+        public Contract(ContractTemplate template, Employee author, Client counteragent)
         {
             _template = template;            
             _historyItems = new List<ContractHistoryElement>();
             AuthorId = author.Id;
             _author = author;
+            CounteragentId = counteragent.Id;
+            _counteragent = counteragent;
             Status = Status.created;
 
             UpdateHistori();
         }
 
         public void Сomplete(Client counteragent)
-        {
-            CounteragentId = counteragent.Id;
-            _counteragent = counteragent;
+        {           
             _body = $"Контракт с {_counteragent.Name} заключен {DateTime.Now}.";            
             _status = Status.completed;
 
-            UpdateHistori();
+            //UpdateHistori();
         }
 
         public void SendforAcquaintance()
         {
             _status = Status.forAcquaintance;
-            UpdateHistori();            
+            //UpdateHistori();            
         }
 
         public void Cquaint(Client client)
@@ -105,7 +105,7 @@ namespace BankSystem.Domain.Models
             }
             _status = Status.forSigning;
 
-            UpdateHistori();
+            //UpdateHistori();
         }
 
         public void Sign(Employee signer)
@@ -118,7 +118,7 @@ namespace BankSystem.Domain.Models
             _body = _body + $"Подписан - {signer.Name} {DateTime.Now}";
             _status = Status.signed;
 
-            UpdateHistori();           
+            //UpdateHistori();           
         }
 
 

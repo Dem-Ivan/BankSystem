@@ -18,7 +18,7 @@ namespace BankSystem.Domain.Tests
             template.SignerRole = role.director;
 
             //Act
-            var contract = template.GetNewContract(bankOperator); // 1)создан           
+            var contract = template.GetNewContract(bankOperator, counteragent); // 1)создан           
             contract.Сomplete(counteragent); //2)запонен
             contract.SendforAcquaintance(); //3) отправлен на ознакомление
             contract.Cquaint(counteragent); //4) контрагент подтвердил (ознакомился) новый статус "на подписание"

@@ -39,7 +39,7 @@ namespace BankSystem.App.Tests
             var contractCase = new ContractCase(_clientRepository, _employeeRepository, _contractRepository, _mapper);
 
             //Act
-            var contractId = contractCase.CreateNewcontract(template, bankOperator.Id); //1)
+            var contractId = contractCase.CreateNewcontract(template, bankOperator.Id, counteragent.Id); //1)
             var completedContract = contractCase.CompleteContract(counteragent.Id, contractId);//2)
             //фронт показывает тело контракта клиенту и ожидает нажатия на кнопку "Одобрить"
             //если кнопка "Одобрить" была нажата - вызываем метод СonfirmAcquaintance

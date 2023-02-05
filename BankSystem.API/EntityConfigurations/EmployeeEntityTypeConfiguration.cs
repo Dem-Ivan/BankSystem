@@ -19,7 +19,7 @@ namespace BankSystem.API.EntityConfigurations
             builder.Property(e => e.Role);
 
             builder.HasKey(e => e.Id);
-            builder.HasMany(x => x.Contracts);
+            builder.HasMany(e => e.Contracts);
         }
     }
 }
