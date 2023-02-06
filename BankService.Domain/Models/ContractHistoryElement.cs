@@ -37,6 +37,7 @@ namespace BankSystem.Domain.Models
 
         public ContractHistoryElement(Contract currentContract)
         {
+            ContractId = currentContract.Id;
             Contract = currentContract;
             NewStatus = currentContract.Status;
         }

@@ -9,8 +9,7 @@ namespace BankSystem.App.Interfaces
         Contract Get(Guid contractId);
         IEnumerable<ContractHistoryElement> GetContractHistory();
         void Add(Contract contract);
-        void AddContractHistoryElement(ContractHistoryElement contractHistoryElement);
-        void Update(Contract contract);
+        void AddContractHistoryElement(ContractHistoryElement contractHistoryElement);      
         void Delete(Guid contractId);
         public void Save();
     }

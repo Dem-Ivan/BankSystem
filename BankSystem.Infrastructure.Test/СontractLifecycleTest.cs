@@ -20,7 +20,6 @@ namespace BankSystem.Infrastructure.Test
         private static DbContextOptionsBuilder<BankSystemDbContext> _optionsBuilder = new DbContextOptionsBuilder<BankSystemDbContext>();
         private static DbContextOptions<BankSystemDbContext> _options = _optionsBuilder.UseNpgsql(_config.GetConnectionString("DefaultConnection")).Options;
 
-        // public static BankSystemDbContext _bankSystemDbContext = new BankSystemDbContext(_options);
         private static MapperConfiguration _mapperConfig = new MapperConfiguration(cfg => { cfg.AddProfile<MainProfile>(); });
         private static readonly IMapper _mapper = _mapperConfig.CreateMapper();
 

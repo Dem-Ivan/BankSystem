@@ -1,5 +1,4 @@
-﻿
-using BankSystem.Domain.Exceptions;
+﻿using BankSystem.Domain.Exceptions;
 using BankSystem.Domain.Models.Templates;
 using System;
 using System.Collections.Generic;
@@ -79,7 +78,7 @@ namespace BankSystem.Domain.Models
             _counteragent = counteragent;
             Status = Status.created;
 
-            UpdateHistori();
+            UpdateHistori();            
         }
 
         public void Сomplete(Client counteragent)
@@ -87,13 +86,13 @@ namespace BankSystem.Domain.Models
             _body = $"Контракт с {_counteragent.Name} заключен {DateTime.Now}.";            
             _status = Status.completed;
 
-            //UpdateHistori();
+            UpdateHistori();
         }
 
         public void SendforAcquaintance()
         {
             _status = Status.forAcquaintance;
-            //UpdateHistori();            
+            UpdateHistori();            
         }
 
         public void Cquaint(Client client)
@@ -105,7 +104,7 @@ namespace BankSystem.Domain.Models
             }
             _status = Status.forSigning;
 
-            //UpdateHistori();
+            UpdateHistori();
         }
 
         public void Sign(Employee signer)
@@ -118,7 +117,7 @@ namespace BankSystem.Domain.Models
             _body = _body + $"Подписан - {signer.Name} {DateTime.Now}";
             _status = Status.signed;
 
-            //UpdateHistori();           
+            UpdateHistori();           
         }
 
 
@@ -131,8 +130,6 @@ namespace BankSystem.Domain.Models
         private void UpdateHistori()
         {
             _historyItems.Add(new ContractHistoryElement(this));
-        }
-
-        
+        }        
     }
 }

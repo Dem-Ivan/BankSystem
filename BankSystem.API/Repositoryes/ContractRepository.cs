@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using BankSystem.App.Exceptions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 
@@ -31,19 +29,6 @@ namespace BankSystem.API.Repositoryes
         {
             var contract = _bankSystemDbContext.Contract.FirstOrDefault(c => c.Id == contractId);
             _bankSystemDbContext.Contract.Remove(contract);
-        }
-
-        public void Update(Contract contract)
-        {
-            var oldContract = _bankSystemDbContext.Contract.FirstOrDefault(x => x.Id == contract.Id);
-            
-            if (contract == null)
-            {
-                throw new NotFoundException($"Контракт с идентификатором {contract.Id} не зарегистрирован в системе.");
-            }
-
-            oldContract = contract; // TODO: проверить, возможно понадобится маппинг, не забыть про вызов метода сохранения
-            _bankSystemDbContext.Update(oldContract);
         }
 
         public IEnumerable<ContractHistoryElement> GetContractHistory()

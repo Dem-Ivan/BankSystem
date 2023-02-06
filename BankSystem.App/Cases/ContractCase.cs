@@ -3,9 +3,9 @@ using BankSystem.App.DTO;
 using BankSystem.App.Exceptions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Exceptions;
-using BankSystem.Domain.Models;
 using BankSystem.Domain.Models.Templates;
 using AutoMapper;
+using System.Linq;
 
 namespace BankSystem.App.Cases
 {
@@ -59,10 +59,12 @@ namespace BankSystem.App.Cases
                 throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
             }
 
+            
             contract.Сomplete(counteragent);
+            _contractRepository.AddContractHistoryElement(contract.History.LastOrDefault());
             contract.SendforAcquaintance();
-            _contractRepository.Update(contract);
-            _contractRepository.Save();
+            _contractRepository.AddContractHistoryElement(contract.History.LastOrDefault()); 
+            _contractRepository.Save();     
 
             var result = _mapper.Map<ContractResponse>(contract); // TODO: проверить рабу маппера            
             return result;
@@ -83,7 +85,7 @@ namespace BankSystem.App.Cases
             }
 
             contract.Cquaint(counteragent);
-            _contractRepository.Update(contract);
+            _contractRepository.AddContractHistoryElement(contract.History.LastOrDefault());            
             _contractRepository.Save();
 
             return contract.Id;
@@ -102,9 +104,9 @@ namespace BankSystem.App.Cases
             {
                 throw new NotFoundException($"Сотрудник с идентификатором {signerId} не зарегистрирован в системе.");
             }
-
+           
             contract.Sign(signer);
-            _contractRepository.Update(contract);
+            _contractRepository.AddContractHistoryElement(contract.History.LastOrDefault());
             _contractRepository.Save();
         }
 
@@ -127,8 +129,7 @@ namespace BankSystem.App.Cases
                 throw new InvalidAccessException($"Сотрудник {redactor.Name} не является автором кнтракта! Редактировать контракт может только его автор.");
             }
 
-            contract.UpdateBody(newBody);
-            _contractRepository.Update(contract);
+            contract.UpdateBody(newBody);           
             _contractRepository.Save();
         }
     }
