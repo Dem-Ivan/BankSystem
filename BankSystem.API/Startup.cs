@@ -39,6 +39,7 @@ namespace BankSystem.API
             services.AddScoped<IEmployeeRepository, EmployeeRepository>(); 
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IContractRepository, ContractRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ContractCase>();
             services.AddDbContext<BankSystemDbContext>(builder => 
             {

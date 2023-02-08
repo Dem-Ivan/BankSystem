@@ -8,19 +8,19 @@ using BankSystem.Domain.Models;
 namespace BankSystem.App.Cases
 {
     public class RegisterEmployeeCase
-    {        
-        private IEmployeeRepository _employeeRepository;
+    {
+        private IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public RegisterEmployeeCase(IEmployeeRepository employeeRepository, IMapper mapper)
+        public RegisterEmployeeCase(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _employeeRepository = employeeRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public EmployeeResponse Get(Guid employeeId)
         {
-            var employee = _employeeRepository.Get(employeeId);
+            var employee = _unitOfWork.Employees.Get(employeeId);
             if (employee == null)
             {
                 throw new NotFoundException($"Сотрудник с идентификатором {employeeId} не зарегистрирован в системе.");
@@ -35,8 +35,8 @@ namespace BankSystem.App.Cases
         {
             var mappedEmployee = _mapper.Map<Employee>(employee);
 
-            _employeeRepository.Add(mappedEmployee);
-            _employeeRepository.Save();
+            _unitOfWork.Employees.Add(mappedEmployee);
+            _unitOfWork.Employees.Save();
 
             return mappedEmployee.Id;
         }

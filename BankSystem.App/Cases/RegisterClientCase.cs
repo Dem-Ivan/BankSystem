@@ -8,19 +8,19 @@ using BankSystem.Domain.Models;
 namespace BankSystem.App.Cases
 {
     public class RegisterClientCase
-    {        
-        private IClientRepository _clientRepository;
+    {
+        private IUnitOfWork _unitOfWork; 
         private readonly IMapper _mapper;
 
-        public RegisterClientCase(IClientRepository clientRepository, IMapper mapper)
+        public RegisterClientCase(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _clientRepository = clientRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public ClientResponse Get(Guid clientId)
         {
-            var client = _clientRepository.Get(clientId);
+            var client = _unitOfWork.Clients.Get(clientId);
             if (client == null)
             {
                 throw new NotFoundException($"Клиент с идентификатором {clientId} не зарегистрирован в системе.");
@@ -35,8 +35,8 @@ namespace BankSystem.App.Cases
         {
             var mappedClient = _mapper.Map<Client>(client);
 
-            _clientRepository.Add(mappedClient);
-            _clientRepository.Save();
+            _unitOfWork.Clients.Add(mappedClient);
+            _unitOfWork.Clients.Save();
 
             return mappedClient.Id;
         }

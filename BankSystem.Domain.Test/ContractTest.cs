@@ -24,7 +24,7 @@ namespace BankSystem.Domain.Tests
             contract.Cquaint(counteragent); //4) контрагент подтвердил (ознакомился) новый статус "на подписание"
             contract.Sign(signer); //5) подписан 
 
-            contract.History.RemoveAt(0);
+            //contract.History.RemoveAt(0);
             //Assert
             Assert.Equal(5, contract.History.Count);
         }
