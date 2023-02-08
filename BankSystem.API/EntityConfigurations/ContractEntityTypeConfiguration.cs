@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using BankSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,6 +16,7 @@ namespace BankSystem.API.EntityConfigurations
             builder.Property(e => e.Id);
             builder.Property(e => e.Status).IsRequired();
             builder.Property(e => e.Body);
+            builder.Property(e => e.SignerRole);
 
             builder.HasKey(e => e.Id);
 

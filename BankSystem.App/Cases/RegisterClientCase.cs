@@ -8,8 +8,7 @@ using BankSystem.Domain.Models;
 namespace BankSystem.App.Cases
 {
     public class RegisterClientCase
-    {
-        // ReSharper disable once NotAccessedField.Local
+    {        
         private IClientRepository _clientRepository;
         private readonly IMapper _mapper;
 
@@ -27,9 +26,9 @@ namespace BankSystem.App.Cases
                 throw new NotFoundException($"Клиент с идентификатором {clientId} не зарегистрирован в системе.");
             }
 
-            var mappedEmployee = _mapper.Map(client, new ClientResponse());
+            var mappedClient = _mapper.Map(client, new ClientResponse());
 
-            return mappedEmployee;
+            return mappedClient;
         }
 
         public Guid AddClient(ClientRequest client)

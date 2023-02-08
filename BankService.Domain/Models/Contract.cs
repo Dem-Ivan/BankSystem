@@ -5,15 +5,16 @@ using System.Collections.Generic;
 
 namespace BankSystem.Domain.Models
 {
-    public class Contract 
+    public class Contract
     {
         private Guid _id = Guid.NewGuid();
         private Status _status = Status.created;
         private string _body;
         private ContractTemplate _template;
-        private readonly List<ContractHistoryElement> _historyItems;
-        private readonly Employee _author;
-        private  Client _counteragent;
+        private List<ContractHistoryElement> _historyItems;
+        private Employee _author;
+        private Client _counteragent;
+        private role _signerRole;
 
         public Guid Id
         {
@@ -37,11 +38,16 @@ namespace BankSystem.Domain.Models
 
         public role SignerRole
         {
-            get => _template.SignerRole;
+            private init
+            {
+                _signerRole = value;
+            }
+
+            get => _signerRole;
         }
 
         public Guid AuthorId { get; set; }
-        
+
         public Employee Author
         {
             private init
@@ -53,7 +59,7 @@ namespace BankSystem.Domain.Models
         }
 
         public Guid CounteragentId { get; set; }
-        
+
 
         public Client Counteragent
         {
@@ -61,7 +67,15 @@ namespace BankSystem.Domain.Models
         }
 
 
-        public IReadOnlyCollection<ContractHistoryElement> History => _historyItems;
+        public List<ContractHistoryElement> History//public IReadOnlyCollection<ContractHistoryElement> History   
+        {
+            get => _historyItems;
+            
+            init
+            {
+                _historyItems =  value;
+            }
+        }
 
         public Contract()
         {
@@ -70,20 +84,21 @@ namespace BankSystem.Domain.Models
 
         public Contract(ContractTemplate template, Employee author, Client counteragent)
         {
-            _template = template;            
+            _template = template;
             _historyItems = new List<ContractHistoryElement>();
             AuthorId = author.Id;
             _author = author;
             CounteragentId = counteragent.Id;
             _counteragent = counteragent;
             Status = Status.created;
+            _signerRole = _template.SignerRole;
 
-            UpdateHistori();            
+            UpdateHistori();
         }
 
         public void Сomplete(Client counteragent)
-        {           
-            _body = $"Контракт с {_counteragent.Name} заключен {DateTime.Now}.";            
+        {
+            _body = $"Контракт с {_counteragent.Name} заключен {DateTime.Now}.";
             _status = Status.completed;
 
             UpdateHistori();
@@ -92,7 +107,7 @@ namespace BankSystem.Domain.Models
         public void SendforAcquaintance()
         {
             _status = Status.forAcquaintance;
-            UpdateHistori();            
+            UpdateHistori();
         }
 
         public void Cquaint(Client client)
@@ -117,7 +132,7 @@ namespace BankSystem.Domain.Models
             _body = _body + $"Подписан - {signer.Name} {DateTime.Now}";
             _status = Status.signed;
 
-            UpdateHistori();           
+            UpdateHistori();
         }
 
 
@@ -130,6 +145,6 @@ namespace BankSystem.Domain.Models
         private void UpdateHistori()
         {
             _historyItems.Add(new ContractHistoryElement(this));
-        }        
+        }
     }
 }

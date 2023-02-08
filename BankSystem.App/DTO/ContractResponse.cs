@@ -5,9 +5,9 @@ namespace BankSystem.App.DTO
 {
     public class ContractResponse
     {
-        public Guid Id { get; }
-        public Status Status { get; }
-        public string Body { get; }
-        public Employee Author { get; }
+        public Guid Id { get; set; }
+        public Guid AuthorId { get; set; }
+        public Status Status { get; set; }
+        public string Body { get; set; }        
     }
 }

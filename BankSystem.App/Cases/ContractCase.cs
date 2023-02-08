@@ -58,7 +58,6 @@ namespace BankSystem.App.Cases
             {
                 throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
             }
-
             
             contract.Сomplete(counteragent);
             _contractRepository.AddContractHistoryElement(contract.History.LastOrDefault());
@@ -66,7 +65,7 @@ namespace BankSystem.App.Cases
             _contractRepository.AddContractHistoryElement(contract.History.LastOrDefault()); 
             _contractRepository.Save();     
 
-            var result = _mapper.Map<ContractResponse>(contract); // TODO: проверить рабу маппера            
+            var result =  _mapper.Map<ContractResponse>(contract);    
             return result;
         }
 
@@ -124,7 +123,7 @@ namespace BankSystem.App.Cases
                 throw new NotFoundException($"Сотрудник с идентификатором {redactorId} не зарегистрирован в системе.");
             }
 
-            if (contract.Author.Name != redactor.Name)
+            if (contract.AuthorId != redactor.Id)
             {
                 throw new InvalidAccessException($"Сотрудник {redactor.Name} не является автором кнтракта! Редактировать контракт может только его автор.");
             }

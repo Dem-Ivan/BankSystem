@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankSystem.API.Migrations
 {
     [DbContext(typeof(BankSystemDbContext))]
-    [Migration("20230205103941_initial")]
+    [Migration("20230207083702_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,9 @@ namespace BankSystem.API.Migrations
 
                     b.Property<Guid>("CounteragentId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("SignerRole")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");

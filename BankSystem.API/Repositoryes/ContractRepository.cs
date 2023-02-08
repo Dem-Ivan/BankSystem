@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankSystem.API.Repositoryes
 {
@@ -17,7 +18,7 @@ namespace BankSystem.API.Repositoryes
 
         public Contract Get(Guid contractId)
         {
-            return _bankSystemDbContext.Contract.FirstOrDefault(x => x.Id == contractId);
+            return _bankSystemDbContext.Contract.Include(c => c.History).FirstOrDefault(x => x.Id == contractId);
         }
 
         public void Add(Contract contract)

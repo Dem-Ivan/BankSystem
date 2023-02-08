@@ -2,10 +2,8 @@
 using BankSystem.App.DTO;
 using BankSystem.Domain.Models.Templates;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+
 
 namespace BankSystem.API.Controllers
 {
@@ -29,22 +27,22 @@ namespace BankSystem.API.Controllers
             return _employeeCase.Get(employeeId);
         }
 
-        [HttpPost]
+        [HttpPost("AddEmployee")]
         public ActionResult<Guid> AddEmployee([FromBody] EmployeeRequest employeeReq)
         {
             return _employeeCase.AddEmployee(employeeReq);
         }
 
         [HttpPost("createNewContractWith")]       
-        public ActionResult<ContractResponse> CreateNewContractWith([FromBody] Guid clientId, Guid authorId)
+        public ActionResult<ContractResponse> CreateNewContractWith([FromQuery] Guid clientId, Guid authorId)
         {//при наличии аутентификации - authorId берем из контекста запроса
 
             var contractId = _contractCase.CreateNewcontract(_template, authorId, clientId);
             return _contractCase.CompleteContract(clientId, contractId);
         }
 
-        [HttpPut]
-        public IActionResult SignContract([FromBody] Guid singerId, Guid contractId)
+        [HttpPut("SignContract")]
+        public IActionResult SignContract([FromQuery] Guid singerId, Guid contractId)
         {//при наличии аутентификации - подписанта (singerId) берем из контекста запроса
 
             _contractCase.SignContract(singerId, contractId);

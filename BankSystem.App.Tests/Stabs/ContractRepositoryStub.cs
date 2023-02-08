@@ -15,7 +15,7 @@ namespace BankSystem.App.Tests.Stabs
 
         public void AddContractHistoryElement(ContractHistoryElement contractHistoryElement)
         {
-            throw new NotImplementedException();
+           
         }
 
         public void Delete(Guid contractId)

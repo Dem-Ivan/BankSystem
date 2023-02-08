@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using AutoMapper;
 using BankSystem.App.DTO;
 using BankSystem.App.Exceptions;
@@ -24,7 +23,7 @@ namespace BankSystem.App.Cases
             var employee = _employeeRepository.Get(employeeId);
             if (employee == null)
             {
-                throw new NotFoundException($"Контракт с идентификатором {employeeId} не зарегистрирован в системе.");
+                throw new NotFoundException($"Сотрудник с идентификатором {employeeId} не зарегистрирован в системе.");
             }
 
             var mappedEmployee = _mapper.Map(employee, new EmployeeResponse());

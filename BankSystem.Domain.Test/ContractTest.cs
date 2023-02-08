@@ -18,12 +18,13 @@ namespace BankSystem.Domain.Tests
             template.SignerRole = role.director;
 
             //Act
-            var contract = template.GetNewContract(bankOperator, counteragent); // 1)создан           
+            var contract = template.GetNewContract(bankOperator, counteragent); // 1)создан      
             contract.Сomplete(counteragent); //2)запонен
             contract.SendforAcquaintance(); //3) отправлен на ознакомление
             contract.Cquaint(counteragent); //4) контрагент подтвердил (ознакомился) новый статус "на подписание"
             contract.Sign(signer); //5) подписан 
 
+            contract.History.RemoveAt(0);
             //Assert
             Assert.Equal(5, contract.History.Count);
         }

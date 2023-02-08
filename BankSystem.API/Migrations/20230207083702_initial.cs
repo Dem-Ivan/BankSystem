@@ -41,6 +41,7 @@ namespace BankSystem.API.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     Body = table.Column<string>(type: "text", nullable: true),
+                    SignerRole = table.Column<int>(type: "integer", nullable: false),
                     AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
                     CounteragentId = table.Column<Guid>(type: "uuid", nullable: false)
                 },

@@ -51,6 +51,9 @@ namespace BankSystem.API.Migrations
                     b.Property<Guid>("CounteragentId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("SignerRole")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 

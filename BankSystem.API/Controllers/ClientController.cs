@@ -1,8 +1,6 @@
 ﻿using BankSystem.App.Cases;
 using BankSystem.App.DTO;
-using BankSystem.Domain.Models.Templates;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 
 namespace BankSystem.API.Controllers
@@ -21,19 +19,19 @@ namespace BankSystem.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<EmployeeResponse> GetClient([FromQuery] Guid employeeId)
+        public ActionResult<ClientResponse> GetClient([FromQuery] Guid clientId)
         {
-            return null;
+            return _clientCase.Get(clientId);
         }
 
-        [HttpPost]
-        public ActionResult<Guid> AddClient([FromBody] EmployeeRequest employeeReq)
+        [HttpPost("AddClient")]
+        public ActionResult<Guid> AddClient([FromBody] ClientRequest clientReq)
         {
-            return null;
+            return _clientCase.AddClient(clientReq);
         }
 
-        [HttpPut]
-        public ActionResult<Guid> СonfirmContract([FromBody] Guid clientId, Guid contractId)
+        [HttpPut("СonfirmContract")]
+        public ActionResult<Guid> СonfirmContract([FromQuery] Guid clientId, Guid contractId)
         {//при наличии аутентификации - контерагента (clientId) берем из контекста запроса
 
             return _contractCase.СonfirmAcquaintance(clientId, contractId);
