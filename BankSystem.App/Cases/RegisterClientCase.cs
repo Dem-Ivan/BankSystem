@@ -1,54 +1,52 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using BankSystem.App.DTO;
 using BankSystem.App.Exceptions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 
-namespace BankSystem.App.Cases
+namespace BankSystem.App.Cases;
+
+public class RegisterClientCase
 {
-    public class RegisterClientCase
+    private IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
+    public RegisterClientCase(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        private IUnitOfWork _unitOfWork; 
-        private readonly IMapper _mapper;
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+    }
 
-        public RegisterClientCase(IUnitOfWork unitOfWork, IMapper mapper)
+    public ClientResponse Get(Guid clientId)
+    {
+        var client = _unitOfWork.Clients.Get(clientId);
+        if (client == null)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            throw new NotFoundException($"Клиент с идентификатором {clientId} не зарегистрирован в системе.");
         }
 
-        public ClientResponse Get(Guid clientId)
-        {
-            var client = _unitOfWork.Clients.Get(clientId);
-            if (client == null)
-            {
-                throw new NotFoundException($"Клиент с идентификатором {clientId} не зарегистрирован в системе.");
-            }
+        var mappedClient = _mapper.Map(client, new ClientResponse());
 
-            var mappedClient = _mapper.Map(client, new ClientResponse());
+        return mappedClient;
+    }
 
-            return mappedClient;
-        }
+    public Guid AddClient(ClientRequest client)
+    {
+        var mappedClient = _mapper.Map<Client>(client);
 
-        public Guid AddClient(ClientRequest client)
-        {
-            var mappedClient = _mapper.Map<Client>(client);
+        _unitOfWork.Clients.Add(mappedClient);
+        _unitOfWork.Clients.Save();
 
-            _unitOfWork.Clients.Add(mappedClient);
-            _unitOfWork.Clients.Save();
+        return mappedClient.Id;
+    }
 
-            return mappedClient.Id;
-        }
+    public void DeleteClent(Guid clientId)
+    {
 
-        public void DeleteClent(Guid clientId)
-        {
+    }
 
-        }
+    public void UpdateClient(ClientRequest client)
+    {
 
-        public void UpdateClient(ClientRequest client)
-        {
-
-        }
     }
 }

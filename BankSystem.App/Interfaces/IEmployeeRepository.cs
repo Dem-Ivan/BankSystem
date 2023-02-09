@@ -1,15 +1,12 @@
 ﻿using  BankSystem.Domain.Models;
-using System;
-using System.Collections.Generic;
 
-namespace BankSystem.App.Interfaces
+namespace BankSystem.App.Interfaces;
+
+public interface IEmployeeRepository
 {
-    public interface IEmployeeRepository
-    {      
-        Employee Get(Guid employeeId);
-        void Add(Employee employee);
-        void Update(Employee employee);
-        void Delete(Guid employeeId);
-        void Save();
-    }
+    Employee Get(Guid employeeId);
+    void Add(Employee employee);
+    void Update(Employee employee);
+    void Delete(Guid employeeId);
+    void Save();
 }

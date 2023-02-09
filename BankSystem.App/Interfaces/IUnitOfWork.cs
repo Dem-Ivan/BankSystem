@@ -1,13 +1,10 @@
-﻿using System;
+﻿namespace BankSystem.App.Interfaces;
 
-namespace BankSystem.App.Interfaces
+public interface IUnitOfWork : IDisposable
 {
-    public interface IUnitOfWork : IDisposable
-    {
-        public IEmployeeRepository Employees { get; }
-        public IClientRepository Clients { get; }
-        public IContractRepository Contracts { get; }
+    public IEmployeeRepository Employees { get; }
+    public IClientRepository Clients { get; }
+    public IContractRepository Contracts { get; }
 
-        public void Save();
-    }
+    public void Save();
 }

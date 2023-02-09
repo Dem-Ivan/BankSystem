@@ -1,12 +1,11 @@
 ﻿
-namespace BankSystem.Domain.Models
+namespace BankSystem.Domain.Models;
+
+public enum Status
 {
-    public enum Status
-    {
-        created,
-        completed,
-        forAcquaintance,
-        forSigning,
-        signed
-    }
+    Created,
+    Completed,
+    ForAcquaintance,
+    ForSigning,
+    Signed
 }

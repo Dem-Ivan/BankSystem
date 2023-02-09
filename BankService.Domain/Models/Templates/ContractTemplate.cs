@@ -1,32 +1,31 @@
 ﻿
-namespace BankSystem.Domain.Models.Templates
+namespace BankSystem.Domain.Models.Templates;
+
+public class ContractTemplate
 {
-    public class ContractTemplate
+    private static ContractTemplate _template;
+    private Role _signerRole;
+
+    public Role SignerRole
     {
-        private static ContractTemplate _template;
-        private role _signerRole;
-
-        public role SignerRole
-        {
-            set
-            { //TODO: Предположим тут проверка что это действие совершает админ
-                _signerRole = value;
-            }
-
-            get => _signerRole;
+        set
+        { //TODO: Предположим тут проверка что это действие совершает админ
+            _signerRole = value;
         }
 
-        public static ContractTemplate GetInstance()
-        {
-            if (_template == null)
-                _template = new ContractTemplate();
+        get => _signerRole;
+    }
 
-            return _template;
-        }
+    public static ContractTemplate GetInstance()
+    {
+        if (_template == null)
+            _template = new ContractTemplate();
 
-        public Contract GetNewContract(Employee author, Client counteragent)
-        {
-            return new Contract(this, author, counteragent);
-        }
+        return _template;
+    }
+
+    public Contract GetNewContract(Employee author, Client counteragent)
+    {
+        return new Contract(this, author, counteragent);
     }
 }

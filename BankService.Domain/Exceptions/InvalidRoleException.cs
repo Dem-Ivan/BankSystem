@@ -1,12 +1,9 @@
-﻿using System;
+﻿namespace BankSystem.Domain.Exceptions;
 
-namespace BankSystem.Domain.Exceptions
+public class InvalidRoleException : Exception
 {
-    public class InvalidRoleException : Exception
+    public InvalidRoleException(string message) : base(message)
     {
-        public InvalidRoleException(string message) : base(message)
-        {
 
-        }
     }
 }

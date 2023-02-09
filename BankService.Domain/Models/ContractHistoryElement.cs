@@ -1,45 +1,26 @@
-﻿using System;
+﻿namespace BankSystem.Domain.Models;
 
-namespace BankSystem.Domain.Models
+public class ContractHistoryElement
 {
-    public class ContractHistoryElement
+    public Guid Id { get; } = Guid.NewGuid();
+
+    public Guid ContractId { get; }
+    public Contract Contract { get; set; }
+
+    public DateTime ChangeDate { get; }
+
+    public Status NewStatus { init; get; }
+
+    public ContractHistoryElement()
     {
-        private Guid _id = Guid.NewGuid();
-        private readonly DateTime _changeDate = DateTime.Now;
-        private readonly Status _newStatus;
+        ChangeDate = DateTime.Now;
+    }
 
-        public Guid Id
-        {
-            get => _id;
-        }
-
-        public Guid ContractId { get; }
-        public Contract Contract { get; set; }
-
-        public DateTime ChangeDate
-        {
-            get => _changeDate;
-        }
-
-        public Status NewStatus
-        {
-            private init
-            {
-                _newStatus = value;
-            }
-            get => _newStatus;
-        }
-
-        public ContractHistoryElement()
-        {
-
-        }
-
-        public ContractHistoryElement(Contract currentContract)
-        {
-            ContractId = currentContract.Id;
-            Contract = currentContract;
-            NewStatus = currentContract.Status;
-        }
+    public ContractHistoryElement(Contract currentContract)
+    {
+        ContractId = currentContract.Id;
+        Contract = currentContract;
+        NewStatus = currentContract.Status;
+        ChangeDate = DateTime.Now;
     }
 }

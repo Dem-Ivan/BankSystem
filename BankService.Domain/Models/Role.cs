@@ -1,10 +1,7 @@
-﻿
+﻿namespace BankSystem.Domain.Models;
 
-namespace BankSystem.Domain.Models
+public enum Role
 {
-    public enum role
-    {
-        ordinary_employee,
-        director
-    }
+    OrdinaryEmployee,
+    Director
 }

@@ -1,13 +1,11 @@
-﻿using System;
-using BankSystem.Domain.Models;
+﻿using BankSystem.Domain.Models;
 
-namespace BankSystem.App.DTO
+namespace BankSystem.App.DTO;
+
+public class ContractResponse
 {
-    public class ContractResponse
-    {
-        public Guid Id { get; set; }
-        public Guid AuthorId { get; set; }
-        public Status Status { get; set; }
-        public string Body { get; set; }        
-    }
+    public Guid Id { get; set; }
+    public Guid AuthorId { get; set; }
+    public Status Status { get; set; }
+    public string Body { get; set; }
 }

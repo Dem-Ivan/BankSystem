@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace BankSystem.App.DTO;
 
-namespace BankSystem.App.DTO
+public class ClientRequest
 {
-    public class ClientRequest
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-    }
+    public string Name { get; set; }
+    public int Age { get; set; }
 }

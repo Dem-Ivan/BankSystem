@@ -1,12 +1,9 @@
-﻿using System;
+﻿namespace BankSystem.Domain.Exceptions;
 
-namespace BankSystem.Domain.Exceptions
+public class InvalidPersonDataException : Exception
 {
-    public class InvalidPersonDataException : Exception
+    public InvalidPersonDataException(string message) : base (message)
     {
-        public InvalidPersonDataException(string message) : base (message) 
-        {
 
-        }
     }
 }
