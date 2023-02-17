@@ -37,6 +37,12 @@ public class Client
         get => _age;
     }
 
+    public string Email { get; set; }
+
+    public DateTime CreationDate { get; set; }
+
+    public DateTime? DeletedDate { get; set; }
+
     public Contract Contract { get; set; }
     //TOTO: тут какойто метод характерный для клиента
 }

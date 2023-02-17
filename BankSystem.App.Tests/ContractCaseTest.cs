@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics.Contracts;
+using AutoMapper;
 using BankSystem.App.Cases;
+using BankSystem.App.Interfaces;
 using BankSystem.App.Mapping;
 using BankSystem.App.Tests.Stubs;
 using BankSystem.Domain.Models;
@@ -13,7 +15,7 @@ public class ContractCaseTest
     private ClientRepositoryStub _clientRepository = new();
     private EmployeeRepositoryStub _employeeRepository = new();
     private ContractRepositoryStub _contractRepository = new();
-
+    private UnitOfWorkStub _unitOfWork;
     //private static MapperConfiguration _mapperConfig = new MapperConfiguration(cfg =>
     //{ cfg.CreateMap<Contract, ContractResponse>(MemberList.Source); });
 
@@ -32,10 +34,11 @@ public class ContractCaseTest
         _clientRepository.Add(counteragent);
         _employeeRepository.Add(bankOperator);
         _employeeRepository.Add(signer);
+        _unitOfWork = new UnitOfWorkStub(_employeeRepository, _clientRepository,_contractRepository);
         template.SignerRole = Role.Director;
 
         //TODO
-        ContractCase contractCase = default; //= new ContractCase(_clientRepository, _employeeRepository, _contractRepository, _mapper);
+        ContractCase contractCase = new ContractCase(_unitOfWork, _mapper);
 
         //Act
         var contractId = contractCase.CreateNewcontract(template, bankOperator.Id, counteragent.Id); //1)
@@ -45,6 +48,8 @@ public class ContractCaseTest
         contractCase.СonfirmAcquaintance(counteragent.Id, contractId); //3)
         contractCase.SignContract(signer.Id, contractId);//4)
 
+        var contract = _unitOfWork.Contracts.Get(c => c.Id == contractId);
         //Assert
+        Assert.Equal(5, contract.History.Count);
     }
 }

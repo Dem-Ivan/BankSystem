@@ -44,7 +44,13 @@ public class Employee
         get => _age;
     }
 
+    public string Email { get; set; }
+
     public Role Role { get; set; }
+
+    public DateTime CreationDate { get; set; }
+
+    public DateTime? DeletedDate { get; set; }
 
     public ICollection<Contract> Contracts { get; set; }
 }

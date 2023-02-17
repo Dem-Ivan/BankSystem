@@ -24,6 +24,10 @@ public class Contract
 
     public Role SignerRole { init; get; }
 
+    public DateTime CreationDate { get; set; }
+
+    public DateTime? DeletedDate { get; set; }
+
     public Guid AuthorId { get; set; }
 
     public Employee Author { init; get; }
@@ -32,11 +36,21 @@ public class Contract
 
     public Client Counteragent => _counteragent;
 
-    public ICollection<ContractHistoryElement> History//public IReadOnlyCollection<ContractHistoryElement> History
+    //public ICollection<ContractHistoryElement> History//public IReadOnlyCollection<ContractHistoryElement> History
+    //{
+    //    get => _historyItems.AsReadOnly();
+    //    init => _historyItems = value.ToList(); // наверно плохо, надо играться
+    //}
+    public List<ContractHistoryElement> History  
     {
-        get => _historyItems.AsReadOnly();
-        init => _historyItems = value.ToList(); // наверно плохо, надо играться
+        get => _historyItems;
+
+        init
+        {
+            _historyItems = value;
+        }
     }
+
 
     public Contract()
     {

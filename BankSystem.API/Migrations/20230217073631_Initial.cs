@@ -1,10 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace BankSystem.API.Migrations
 {
-    public partial class initial : Migration
+    /// <inheritdoc />
+    public partial class Initial : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -13,7 +17,10 @@ namespace BankSystem.API.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Age = table.Column<int>(type: "integer", nullable: false)
+                    Age = table.Column<int>(type: "integer", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,7 +34,10 @@ namespace BankSystem.API.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Age = table.Column<int>(type: "integer", nullable: false),
-                    Role = table.Column<int>(type: "integer", nullable: false)
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Role = table.Column<int>(type: "integer", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,6 +52,8 @@ namespace BankSystem.API.Migrations
                     Status = table.Column<int>(type: "integer", nullable: false),
                     Body = table.Column<string>(type: "text", nullable: true),
                     SignerRole = table.Column<int>(type: "integer", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
                     CounteragentId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -68,7 +80,7 @@ namespace BankSystem.API.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ContractId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ChangeDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ChangeDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     NewStatus = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -93,6 +105,7 @@ namespace BankSystem.API.Migrations
                 column: "ContractId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

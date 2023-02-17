@@ -4,7 +4,7 @@ namespace BankSystem.Domain.Models.Templates;
 public class ContractTemplate
 {
     private static ContractTemplate _template;
-    private Role _signerRole;
+    private Role _signerRole = Role.Director;
 
     public Role SignerRole
     {

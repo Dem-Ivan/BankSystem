@@ -33,16 +33,24 @@ public class RegisterEmployeeCase
     public Guid AddEmployee(EmployeeRequest employee)
     {
         var mappedEmployee = _mapper.Map<Employee>(employee);
+        mappedEmployee.CreationDate = DateTime.UtcNow.Date;
 
         _unitOfWork.Employees.Add(mappedEmployee);
-        _unitOfWork.Employees.Save();
+        _unitOfWork.Save();
 
         return mappedEmployee.Id;
     }
 
     public void DeleteEmploye(Guid employeeId)
     {
-            
+        var employee = _unitOfWork.Employees.Get(employeeId);
+        if (employee == null)
+        {
+            throw new NotFoundException($"Сотрудник с идентификатором {employeeId} не зарегистрирован в системе.");
+        }
+
+        employee.DeletedDate = DateTime.UtcNow.Date;
+        _unitOfWork.Save();
     }
 
     public void UpdateEmploye(EmployeeRequest employee)

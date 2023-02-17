@@ -1,4 +1,5 @@
-﻿using BankSystem.App.Interfaces;
+﻿using System.Linq.Expressions;
+using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,9 +14,9 @@ public class ContractRepository : IContractRepository
         _bankSystemDbContext = bankSystemDbContext;
     }
 
-    public Contract Get(Guid contractId)
+    public Contract Get(Expression<Func<Contract, bool>> exception)
     {
-        return _bankSystemDbContext.Contract.Include(c => c.History).FirstOrDefault(x => x.Id == contractId);
+        return _bankSystemDbContext.Contract.Include(c => c.History).FirstOrDefault(exception);
     }
 
     public void Add(Contract contract)
@@ -23,12 +24,7 @@ public class ContractRepository : IContractRepository
         _bankSystemDbContext.Contract.Add(contract);
     }
 
-    public void Delete(Guid contractId)
-    {
-        var contract = _bankSystemDbContext.Contract.FirstOrDefault(c => c.Id == contractId);
-        _bankSystemDbContext.Contract.Remove(contract);
-    }
-
+   
     public IEnumerable<ContractHistoryElement> GetContractHistory()
     {
         return _bankSystemDbContext.ContractHistory;
@@ -37,10 +33,5 @@ public class ContractRepository : IContractRepository
     public void AddContractHistoryElement(ContractHistoryElement contractHistoryElement)
     {
         _bankSystemDbContext.ContractHistory.Add(contractHistoryElement);
-    }
-
-    public void Save()
-    {
-        _bankSystemDbContext.SaveChanges();
-    }
+    }    
 }

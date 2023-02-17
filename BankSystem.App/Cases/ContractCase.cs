@@ -4,6 +4,8 @@ using BankSystem.App.Interfaces;
 using BankSystem.Domain.Exceptions;
 using BankSystem.Domain.Models.Templates;
 using AutoMapper;
+using BankSystem.App.Specifications.Contract;
+using BankSystem.Domain.Models;
 
 namespace BankSystem.App.Cases;
 
@@ -19,6 +21,7 @@ public class ContractCase
     }
 
     //TODO: метод вызывается в контроллере с аутентификацией сотрудника
+    //TODO:  надобы добавить таблицу шаблонов, и трать шаблон из нее
     public Guid CreateNewcontract(ContractTemplate template, Guid authorId, Guid counteragentId)
     {
         var author = _unitOfWork.Employees.Get(authorId);
@@ -34,6 +37,7 @@ public class ContractCase
         }
 
         var contract =  template.GetNewContract(author, counteragent);
+        contract.CreationDate = DateTime.UtcNow.Date;
         _unitOfWork.Contracts.Add(contract);
         _unitOfWork.Save();
 
@@ -48,10 +52,10 @@ public class ContractCase
             throw new NotFoundException($"Клиент с идентификатором {counteragentId} не зарегистрирован в системе.");
         }
 
-        var contract = _unitOfWork.Contracts.Get(contractId);
+        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.Created));
         if (contract == null)
         {
-            throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
+            throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
         contract.Сomplete(counteragent);
@@ -66,10 +70,10 @@ public class ContractCase
 
     public Guid СonfirmAcquaintance(Guid counteragentId, Guid contractId)
     {
-        var contract = _unitOfWork.Contracts.Get(contractId);
+        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.ForAcquaintance));
         if (contract == null)
         {
-            throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
+            throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
         var counteragent = _unitOfWork.Clients.Get(counteragentId);
@@ -87,10 +91,10 @@ public class ContractCase
 
     public void SignContract(Guid signerId, Guid contractId)
     {
-        var contract = _unitOfWork.Contracts.Get(contractId);
+        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.ForSigning));
         if (contract == null)
         {
-            throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
+            throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
         var signer = _unitOfWork.Employees.Get(signerId);
@@ -106,10 +110,10 @@ public class ContractCase
 
     public void UpdateContractBody(Guid contractId, Guid redactorId, string newBody)
     {
-        var contract = _unitOfWork.Contracts.Get(contractId);
+        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.ForAcquaintance));
         if (contract == null)
         {
-            throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе.");
+            throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
         var redactor = _unitOfWork.Employees.Get(redactorId);
@@ -124,6 +128,18 @@ public class ContractCase
         }
 
         contract.UpdateBody(newBody);
+        _unitOfWork.Save();
+    }
+
+    public void DeleteContract(Guid contractId)
+    {
+        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.Signed));
+        if (contract == null)
+        {
+            throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
+        }
+
+        contract.DeletedDate = DateTime.UtcNow.Date;
         _unitOfWork.Save();
     }
 }

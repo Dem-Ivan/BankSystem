@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
+#nullable disable
+
 namespace BankSystem.API.Migrations
 {
     [DbContext(typeof(BankSystemDbContext))]
@@ -15,9 +17,10 @@ namespace BankSystem.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityByDefaultColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("BankSystem.Domain.Models.Client", b =>
                 {
@@ -28,13 +31,23 @@ namespace BankSystem.API.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Client");
+                    b.ToTable("Client", (string)null);
                 });
 
             modelBuilder.Entity("BankSystem.Domain.Models.Contract", b =>
@@ -51,6 +64,12 @@ namespace BankSystem.API.Migrations
                     b.Property<Guid>("CounteragentId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("SignerRole")
                         .HasColumnType("integer");
 
@@ -61,7 +80,7 @@ namespace BankSystem.API.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Contract");
+                    b.ToTable("Contract", (string)null);
                 });
 
             modelBuilder.Entity("BankSystem.Domain.Models.ContractHistoryElement", b =>
@@ -71,7 +90,7 @@ namespace BankSystem.API.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("ChangeDate")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("ContractId")
                         .HasColumnType("uuid");
@@ -83,7 +102,7 @@ namespace BankSystem.API.Migrations
 
                     b.HasIndex("ContractId");
 
-                    b.ToTable("ContractHistoryElement");
+                    b.ToTable("ContractHistoryElement", (string)null);
                 });
 
             modelBuilder.Entity("BankSystem.Domain.Models.Employee", b =>
@@ -95,6 +114,16 @@ namespace BankSystem.API.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -104,7 +133,7 @@ namespace BankSystem.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employee", (string)null);
                 });
 
             modelBuilder.Entity("BankSystem.Domain.Models.Contract", b =>

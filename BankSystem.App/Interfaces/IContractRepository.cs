@@ -1,13 +1,12 @@
-﻿using BankSystem.Domain.Models;
+﻿using System.Linq.Expressions;
+using BankSystem.Domain.Models;
 
 namespace BankSystem.App.Interfaces;
 
 public interface IContractRepository
 {
-    Contract Get(Guid contractId);
+    Contract Get(Expression<Func<Contract, bool>> exception);
     IEnumerable<ContractHistoryElement> GetContractHistory();
     void Add(Contract contract);
-    void AddContractHistoryElement(ContractHistoryElement contractHistoryElement);
-    void Delete(Guid contractId);
-    public void Save();
+    void AddContractHistoryElement(ContractHistoryElement contractHistoryElement);   
 }

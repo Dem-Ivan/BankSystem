@@ -16,6 +16,9 @@ public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.Age).IsRequired();
         builder.Property(e => e.Role);
+        builder.Property(e => e.Email).IsRequired();
+        builder.Property(e => e.CreationDate).IsRequired();
+        builder.Property(e => e.DeletedDate);
 
         builder.HasKey(e => e.Id);
         builder.HasMany(e => e.Contracts);

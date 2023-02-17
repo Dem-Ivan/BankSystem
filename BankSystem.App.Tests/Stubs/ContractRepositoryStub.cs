@@ -1,4 +1,5 @@
-﻿using BankSystem.App.Interfaces;
+﻿using System.Linq.Expressions;
+using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 
 namespace BankSystem.App.Tests.Stubs;
@@ -14,30 +15,15 @@ public class ContractRepositoryStub : IContractRepository
     public void AddContractHistoryElement(ContractHistoryElement contractHistoryElement)
     {
            
-    }
+    } 
 
-    public void Delete(Guid contractId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Contract Get(Guid contractId)
+    public Contract Get(Expression<Func<Contract, bool>> exception)
     {
         return _contract;
-    }
+    }    
 
     public IEnumerable<ContractHistoryElement> GetContractHistory()
     {
         throw new NotImplementedException();
-    }
-
-    public void Save()
-    {
-            
-    }
-
-    public void Update(Contract contract)
-    {
-        _contract = contract;
-    }
+    }    
 }

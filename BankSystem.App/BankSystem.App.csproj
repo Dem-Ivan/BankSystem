@@ -7,10 +7,16 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Dex.Specifications" Version="1.1.15" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BankService.Domain\BankSystem.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Specifications\Client\" />
+    <Folder Include="Specifications\Employee\" />
   </ItemGroup>
 
 </Project>

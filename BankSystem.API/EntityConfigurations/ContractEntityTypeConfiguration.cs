@@ -16,6 +16,8 @@ public class ContractEntityTypeConfiguration : IEntityTypeConfiguration<Contract
         builder.Property(e => e.Status).IsRequired();
         builder.Property(e => e.Body);
         builder.Property(e => e.SignerRole);
+        builder.Property(e => e.CreationDate).IsRequired();
+        builder.Property(e => e.DeletedDate);
 
         builder.HasKey(e => e.Id);
 

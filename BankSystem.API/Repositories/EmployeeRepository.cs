@@ -1,4 +1,5 @@
-﻿using BankSystem.App.Interfaces;
+﻿using System.Diagnostics.Contracts;
+using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
 
 namespace BankSystem.API.Repositories;
@@ -21,21 +22,5 @@ public class EmployeeRepository : IEmployeeRepository
     public void Add(Employee employee)
     {
         _bankSystemDbContext.Employee.Add(employee);
-    }
-
-    public void Delete(Guid employeeId)
-    {
-        var employee = _bankSystemDbContext.Employee.FirstOrDefault(c => c.Id == employeeId);
-        _bankSystemDbContext.Employee.Remove(employee);
-    }
-
-    public void Update(Employee employee)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Save()
-    {
-        _bankSystemDbContext.SaveChanges();
-    }
+    }      
 }

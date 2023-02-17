@@ -33,16 +33,24 @@ public class RegisterClientCase
     public Guid AddClient(ClientRequest client)
     {
         var mappedClient = _mapper.Map<Client>(client);
+        mappedClient.CreationDate = DateTime.UtcNow.Date;
 
         _unitOfWork.Clients.Add(mappedClient);
-        _unitOfWork.Clients.Save();
+        _unitOfWork.Save();
 
         return mappedClient.Id;
     }
 
     public void DeleteClent(Guid clientId)
     {
+        var client = _unitOfWork.Clients.Get(clientId);
+        if (client == null)
+        {
+            throw new NotFoundException($"Клиент с идентификатором {clientId} не зарегистрирован в системе.");
+        }
 
+        client.DeletedDate = DateTime.UtcNow.Date;
+        _unitOfWork.Save();
     }
 
     public void UpdateClient(ClientRequest client)

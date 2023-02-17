@@ -33,9 +33,9 @@ public class СontractLifecycleTest
         var contractCase = new ContractCase(uow, _mapper);
 
 
-        var counteragent = new ClientRequest { Age = 22, Name = "Иван" };
-        var bankOperator = new EmployeeRequest { Age = 33, Name = "Петрова", Role = Role.OrdinaryEmployee };
-        var signer = new EmployeeRequest { Age = 45, Name = "Эдуард Степанович", Role = Role.Director };
+        var counteragent = new ClientRequest { Age = 22, Name = "Иван", Email = "@email" };
+        var bankOperator = new EmployeeRequest { Age = 33, Name = "Петрова", Email = "@email", Role = Role.OrdinaryEmployee };
+        var signer = new EmployeeRequest { Age = 45, Name = "Эдуард Степанович", Email = "@email", Role = Role.Director };
         var template = ContractTemplate.GetInstance();
         template.SignerRole = Role.Director;
 

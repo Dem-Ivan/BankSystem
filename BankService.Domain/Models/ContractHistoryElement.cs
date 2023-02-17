@@ -13,7 +13,7 @@ public class ContractHistoryElement
 
     public ContractHistoryElement()
     {
-        ChangeDate = DateTime.Now;
+        ChangeDate = DateTime.UtcNow;
     }
 
     public ContractHistoryElement(Contract currentContract)
@@ -21,6 +21,6 @@ public class ContractHistoryElement
         ContractId = currentContract.Id;
         Contract = currentContract;
         NewStatus = currentContract.Status;
-        ChangeDate = DateTime.Now;
+        ChangeDate = DateTime.UtcNow;
     }
 }

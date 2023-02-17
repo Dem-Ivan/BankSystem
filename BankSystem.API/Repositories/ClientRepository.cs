@@ -20,21 +20,5 @@ public class ClientRepository : IClientRepository
     public void Add(Client client)
     {
         _bankSystemDbContext.Client.Add(client);
-    }
-
-    public void Delete(Guid clientId)
-    {
-        var client = _bankSystemDbContext.Client.FirstOrDefault(c => c.Id == clientId);
-        _bankSystemDbContext.Client.Remove(client);
-    }
-
-    public void Update(Client client)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Save()
-    {
-        _bankSystemDbContext.SaveChanges();
-    }
+    }    
 }
