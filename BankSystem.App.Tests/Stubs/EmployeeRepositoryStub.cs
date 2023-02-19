@@ -7,11 +7,11 @@ public class EmployeeRepositoryStub : IEmployeeRepository
 {
     private List<Employee> _employees = new();
 
-    public void Add(Employee employee)
+    public async Task AddAsync(Employee employee)
     {
         _employees.Add(employee);
     }
-    public Employee Get(Guid employeeId)
+    public async Task<Employee> GetAsync(Guid employeeId)
     {
         return _employees.FirstOrDefault(x => x.Id == employeeId);
     }   

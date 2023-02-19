@@ -18,21 +18,21 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<ClientResponse> GetClient([FromQuery] Guid clientId)
+    public async Task<ActionResult<ClientResponse>> GetClient([FromQuery] Guid clientId)
     {
-        return _clientCase.Get(clientId);
+        return await _clientCase.Get(clientId);
     }
 
     [HttpPost("AddClient")]
-    public ActionResult<Guid> AddClient([FromBody] ClientRequest clientReq)
+    public async Task<ActionResult<Guid>> AddClient([FromBody] ClientRequest clientReq)
     {
-        return _clientCase.AddClient(clientReq);
+        return await _clientCase.AddClient(clientReq);
     }
 
     [HttpPut("СonfirmContract")]
-    public ActionResult<Guid> СonfirmContract([FromQuery] Guid clientId, Guid contractId)
+    public async Task<ActionResult<Guid>> СonfirmContract([FromQuery] Guid clientId, Guid contractId)
     {//при наличии аутентификации - контерагента (clientId) берем из контекста запроса
 
-        return _contractCase.СonfirmAcquaintance(clientId, contractId);
+        return await _contractCase.СonfirmAcquaintance(clientId, contractId);
     }
 }

@@ -8,42 +8,34 @@ namespace BankSystem.API.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class EmployeeController : ControllerBase
-{
-    RegisterEmployeeCase _employeeCase;
+{   
     ContractTemplate _template = ContractTemplate.GetInstance();
-    ContractCase _contractCase;
-
-    public EmployeeController(RegisterEmployeeCase employeeCase, ContractCase contractCase)
-    {
-        _employeeCase = employeeCase;
-        _contractCase = contractCase;
-    }
 
     [HttpGet]
-    public ActionResult<EmployeeResponse> GetEmployee([FromQuery] Guid employeeId)
+    public async Task<ActionResult<EmployeeResponse>> GetEmployee([FromQuery] Guid employeeId, [FromServices] RegisterEmployeeCase employeeCase)
     {
-        return _employeeCase.Get(employeeId);
+        return await employeeCase.Get(employeeId);
     }
 
     [HttpPost("AddEmployee")]
-    public ActionResult<Guid> AddEmployee([FromBody] EmployeeRequest employeeReq)
+    public async Task<ActionResult<Guid>> AddEmployee([FromBody] EmployeeRequest employeeReq, [FromServices] RegisterEmployeeCase employeeCase)
     {
-        return _employeeCase.AddEmployee(employeeReq);
+        return await employeeCase.AddEmployee(employeeReq);
     }
 
     [HttpPost("createNewContractWith")]
-    public ActionResult<ContractResponse> CreateNewContractWith([FromQuery] Guid clientId, Guid authorId)
+    public async Task<ActionResult<ContractResponse>> CreateNewContractWith([FromQuery] Guid clientId, Guid authorId, [FromServices] ContractCase contractCase)
     {//при наличии аутентификации - authorId берем из контекста запроса
 
-        var contractId = _contractCase.CreateNewcontract(_template, authorId, clientId);
-        return _contractCase.CompleteContract(clientId, contractId);
+        var contractId = await contractCase.CreateNewcontract(_template, authorId, clientId);
+        return await contractCase.CompleteContract(clientId, contractId);
     }
 
     [HttpPut("SignContract")]
-    public IActionResult SignContract([FromQuery] Guid singerId, Guid contractId)
+    public async Task<IActionResult> SignContract([FromQuery] Guid singerId, Guid contractId, [FromServices] ContractCase contractCase)
     {//при наличии аутентификации - подписанта (singerId) берем из контекста запроса
 
-        _contractCase.SignContract(singerId, contractId);
+        await contractCase.SignContract(singerId, contractId);
 
         return Ok();
     }

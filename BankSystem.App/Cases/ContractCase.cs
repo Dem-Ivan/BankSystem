@@ -22,15 +22,15 @@ public class ContractCase
 
     //TODO: метод вызывается в контроллере с аутентификацией сотрудника
     //TODO:  надобы добавить таблицу шаблонов, и трать шаблон из нее
-    public Guid CreateNewcontract(ContractTemplate template, Guid authorId, Guid counteragentId)
+    public async Task<Guid> CreateNewcontract(ContractTemplate template, Guid authorId, Guid counteragentId)
     {
-        var author = _unitOfWork.Employees.Get(authorId);
+        var author = await _unitOfWork.Employees.GetAsync(authorId);
         if (author == null)
         {
             throw new NotFoundException($"Сотруднк с идентификатором {authorId} не зарегистрирован в системе.");
         }
 
-        var counteragent = _unitOfWork.Clients.Get(counteragentId);
+        var counteragent = await _unitOfWork.Clients.GetAsync(counteragentId);
         if (counteragent == null)
         {
             throw new NotFoundException($"Клиент с идентификатором {counteragentId} не зарегистрирован в системе.");
@@ -38,85 +38,85 @@ public class ContractCase
 
         var contract =  template.GetNewContract(author, counteragent);
         contract.CreationDate = DateTime.UtcNow.Date;
-        _unitOfWork.Contracts.Add(contract);
-        _unitOfWork.Save();
+        await _unitOfWork.Contracts.AddAsync(contract);
+        await _unitOfWork.SaveAsync();
 
         return contract.Id;
     }
 
-    public ContractResponse CompleteContract(Guid counteragentId, Guid contractId)
+    public async Task<ContractResponse> CompleteContract(Guid counteragentId, Guid contractId)
     {
-        var counteragent = _unitOfWork.Clients.Get(counteragentId);
+        var counteragent = await _unitOfWork.Clients.GetAsync(counteragentId);
         if (counteragent == null)
         {
             throw new NotFoundException($"Клиент с идентификатором {counteragentId} не зарегистрирован в системе.");
         }
 
-        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.Created));
+        var contract = await _unitOfWork.Contracts.GetAsync(new ContractStatusSpecification(contractId, Status.Created));
         if (contract == null)
         {
             throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
         contract.Сomplete(counteragent);
-        _unitOfWork.Contracts.AddContractHistoryElement(contract.History.LastOrDefault());
+        await _unitOfWork.Contracts.AddContractHistoryElementAsync(contract.History.LastOrDefault());
         contract.SendforAcquaintance();
-        _unitOfWork.Contracts.AddContractHistoryElement(contract.History.LastOrDefault());
-        _unitOfWork.Save();
+        await _unitOfWork.Contracts.AddContractHistoryElementAsync(contract.History.LastOrDefault());
+        await _unitOfWork.SaveAsync();
 
         var result =  _mapper.Map<ContractResponse>(contract);
         return result;
     }
 
-    public Guid СonfirmAcquaintance(Guid counteragentId, Guid contractId)
+    public async Task<Guid> СonfirmAcquaintance(Guid counteragentId, Guid contractId)
     {
-        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.ForAcquaintance));
+        var contract = await _unitOfWork.Contracts.GetAsync(new ContractStatusSpecification(contractId, Status.ForAcquaintance));
         if (contract == null)
         {
             throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
-        var counteragent = _unitOfWork.Clients.Get(counteragentId);
+        var counteragent = await _unitOfWork.Clients.GetAsync(counteragentId);
         if (counteragent == null)
         {
             throw new NotFoundException($"Клиент с идентификатором {counteragentId} не зарегистрирован в системе.");
         }
 
         contract.Cquaint(counteragent);
-        _unitOfWork.Contracts.AddContractHistoryElement(contract.History.LastOrDefault());
-        _unitOfWork.Save();
+        await _unitOfWork.Contracts.AddContractHistoryElementAsync(contract.History.LastOrDefault());
+        await _unitOfWork.SaveAsync();
 
         return contract.Id;
     }
 
-    public void SignContract(Guid signerId, Guid contractId)
+    public async Task SignContract(Guid signerId, Guid contractId)
     {
-        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.ForSigning));
+        var contract = await _unitOfWork.Contracts.GetAsync(new ContractStatusSpecification(contractId, Status.ForSigning));
         if (contract == null)
         {
             throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
-        var signer = _unitOfWork.Employees.Get(signerId);
+        var signer = await _unitOfWork.Employees.GetAsync(signerId);
         if (signer == null)
         {
             throw new NotFoundException($"Сотрудник с идентификатором {signerId} не зарегистрирован в системе.");
         }
 
         contract.Sign(signer);
-        _unitOfWork.Contracts.AddContractHistoryElement(contract.History.LastOrDefault());
-        _unitOfWork.Save();
+        await _unitOfWork.Contracts.AddContractHistoryElementAsync(contract.History.LastOrDefault());
+        await _unitOfWork.SaveAsync();
     }
 
-    public void UpdateContractBody(Guid contractId, Guid redactorId, string newBody)
+    public async Task UpdateContractBody(Guid contractId, Guid redactorId, string newBody)
     {
-        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.ForAcquaintance));
+        var contract = await _unitOfWork.Contracts.GetAsync(new ContractStatusSpecification(contractId, Status.ForAcquaintance));
         if (contract == null)
         {
             throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
-        var redactor = _unitOfWork.Employees.Get(redactorId);
+        var redactor = await _unitOfWork.Employees.GetAsync(redactorId);
         if (redactor == null)
         {
             throw new NotFoundException($"Сотрудник с идентификатором {redactorId} не зарегистрирован в системе.");
@@ -128,18 +128,18 @@ public class ContractCase
         }
 
         contract.UpdateBody(newBody);
-        _unitOfWork.Save();
+        await _unitOfWork.SaveAsync();
     }
 
-    public void DeleteContract(Guid contractId)
+    public async Task DeleteContract(Guid contractId)
     {
-        var contract = _unitOfWork.Contracts.Get(new ContractStatusSpecification(contractId, Status.Signed));
+        var contract = await _unitOfWork.Contracts.GetAsync(new ContractStatusSpecification(contractId, Status.Signed));
         if (contract == null)
         {
             throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
         contract.DeletedDate = DateTime.UtcNow.Date;
-        _unitOfWork.Save();
+        await _unitOfWork.SaveAsync();
     }
 }

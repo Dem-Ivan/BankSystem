@@ -14,24 +14,20 @@ public class ContractRepository : IContractRepository
         _bankSystemDbContext = bankSystemDbContext;
     }
 
-    public Contract Get(Expression<Func<Contract, bool>> exception)
+    public async Task<Contract> GetAsync(Expression<Func<Contract, bool>> exception)
     {
-        return _bankSystemDbContext.Contract.Include(c => c.History).FirstOrDefault(exception);
-    }
-
-    public void Add(Contract contract)
-    {
-        _bankSystemDbContext.Contract.Add(contract);
-    }
-
+        return await _bankSystemDbContext.Contract.Include(c => c.History).FirstOrDefaultAsync(exception).ConfigureAwait(false);
    
-    public IEnumerable<ContractHistoryElement> GetContractHistory()
-    {
-        return _bankSystemDbContext.ContractHistory;
     }
 
-    public void AddContractHistoryElement(ContractHistoryElement contractHistoryElement)
+    public async Task AddAsync(Contract contract)
     {
-        _bankSystemDbContext.ContractHistory.Add(contractHistoryElement);
+        await _bankSystemDbContext.Contract.AddAsync(contract).ConfigureAwait(false);
+    }
+
+
+    public async Task AddContractHistoryElementAsync(ContractHistoryElement contractHistoryElement)
+    {
+        await _bankSystemDbContext.ContractHistory.AddAsync(contractHistoryElement).ConfigureAwait(false);
     }    
 }

@@ -17,9 +17,9 @@ public class RegisterClientCase
         _mapper = mapper;
     }
 
-    public ClientResponse Get(Guid clientId)
+    public async Task<ClientResponse> Get(Guid clientId)
     {
-        var client = _unitOfWork.Clients.Get(clientId);
+        var client = await _unitOfWork.Clients.GetAsync(clientId);
         if (client == null)
         {
             throw new NotFoundException($"Клиент с идентификатором {clientId} не зарегистрирован в системе.");
@@ -30,31 +30,14 @@ public class RegisterClientCase
         return mappedClient;
     }
 
-    public Guid AddClient(ClientRequest client)
+    public async Task<Guid> AddClient(ClientRequest client)
     {
         var mappedClient = _mapper.Map<Client>(client);
         mappedClient.CreationDate = DateTime.UtcNow.Date;
 
-        _unitOfWork.Clients.Add(mappedClient);
-        _unitOfWork.Save();
+        await _unitOfWork.Clients.AddAsync(mappedClient);
+        await _unitOfWork.SaveAsync();
 
         return mappedClient.Id;
-    }
-
-    public void DeleteClent(Guid clientId)
-    {
-        var client = _unitOfWork.Clients.Get(clientId);
-        if (client == null)
-        {
-            throw new NotFoundException($"Клиент с идентификатором {clientId} не зарегистрирован в системе.");
-        }
-
-        client.DeletedDate = DateTime.UtcNow.Date;
-        _unitOfWork.Save();
-    }
-
-    public void UpdateClient(ClientRequest client)
-    {
-
     }
 }

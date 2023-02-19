@@ -15,14 +15,17 @@ public class UnitOfWork : IUnitOfWork
 
     public IContractRepository Contracts => _contractRepository ??= new ContractRepository(_bankSystemDbContext);
 
-    public UnitOfWork(BankSystemDbContext bankSystemDbContext)
+    public UnitOfWork(IEmployeeRepository employees, IClientRepository clients, IContractRepository contracts, BankSystemDbContext bankSystemDbContext)
     {
         _bankSystemDbContext = bankSystemDbContext;
+        _employeeRepository = employees;
+        _clientRepository= clients;
+        _contractRepository = contracts;
     }
 
-    public void Save()
+    public async Task SaveAsync()
     {
-        _bankSystemDbContext.SaveChanges();
+       await _bankSystemDbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private bool _disposed = false;

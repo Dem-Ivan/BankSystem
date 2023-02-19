@@ -7,23 +7,18 @@ namespace BankSystem.App.Tests.Stubs;
 public class ContractRepositoryStub : IContractRepository
 {
     private Contract _contract;
-    public void Add(Contract contract)
+    public async Task AddAsync(Contract contract)
     {
         _contract = contract;
     }
 
-    public void AddContractHistoryElement(ContractHistoryElement contractHistoryElement)
+    public async Task AddContractHistoryElementAsync(ContractHistoryElement contractHistoryElement)
     {
            
     } 
 
-    public Contract Get(Expression<Func<Contract, bool>> exception)
+    public async Task<Contract> GetAsync(Expression<Func<Contract, bool>> exception)
     {
         return _contract;
-    }    
-
-    public IEnumerable<ContractHistoryElement> GetContractHistory()
-    {
-        throw new NotImplementedException();
     }    
 }

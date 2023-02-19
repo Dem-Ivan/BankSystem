@@ -5,8 +5,7 @@ namespace BankSystem.App.Interfaces;
 
 public interface IContractRepository
 {
-    Contract Get(Expression<Func<Contract, bool>> exception);
-    IEnumerable<ContractHistoryElement> GetContractHistory();
-    void Add(Contract contract);
-    void AddContractHistoryElement(ContractHistoryElement contractHistoryElement);   
+    Task<Contract> GetAsync(Expression<Func<Contract, bool>> exception);   
+    Task AddAsync(Contract contract);
+    Task AddContractHistoryElementAsync(ContractHistoryElement contractHistoryElement);   
 }

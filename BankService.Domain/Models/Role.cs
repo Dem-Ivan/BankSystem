@@ -2,6 +2,8 @@
 
 public enum Role
 {
+    /// <summary> Рядовой сотрудник </summary>
     OrdinaryEmployee,
+    /// <summary> Директор </summary>
     Director
 }

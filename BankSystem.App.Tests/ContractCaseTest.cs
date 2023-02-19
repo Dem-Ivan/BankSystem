@@ -1,7 +1,5 @@
-﻿using System.Diagnostics.Contracts;
-using AutoMapper;
+﻿using AutoMapper;
 using BankSystem.App.Cases;
-using BankSystem.App.Interfaces;
 using BankSystem.App.Mapping;
 using BankSystem.App.Tests.Stubs;
 using BankSystem.Domain.Models;
@@ -16,14 +14,12 @@ public class ContractCaseTest
     private EmployeeRepositoryStub _employeeRepository = new();
     private ContractRepositoryStub _contractRepository = new();
     private UnitOfWorkStub _unitOfWork;
-    //private static MapperConfiguration _mapperConfig = new MapperConfiguration(cfg =>
-    //{ cfg.CreateMap<Contract, ContractResponse>(MemberList.Source); });
 
     private static MapperConfiguration _mapperConfig = new(cfg => { cfg.AddProfile<MainProfile>(); });
     private readonly IMapper _mapper = _mapperConfig.CreateMapper();
 
     [Fact]
-    public void FullCaseCheck()
+    public async Task FullCaseCheck()
     {
         //Arrange
         var template = ContractTemplate.GetInstance();
@@ -31,9 +27,9 @@ public class ContractCaseTest
         var bankOperator = new Employee(33, "Петрова", Role.OrdinaryEmployee);
         var signer = new Employee(45, "Эдуард Степанович", Role.Director);
 
-        _clientRepository.Add(counteragent);
-        _employeeRepository.Add(bankOperator);
-        _employeeRepository.Add(signer);
+        await _clientRepository.AddAsync(counteragent);
+        await _employeeRepository.AddAsync(bankOperator);
+        await _employeeRepository.AddAsync(signer);
         _unitOfWork = new UnitOfWorkStub(_employeeRepository, _clientRepository,_contractRepository);
         template.SignerRole = Role.Director;
 
@@ -41,14 +37,14 @@ public class ContractCaseTest
         ContractCase contractCase = new ContractCase(_unitOfWork, _mapper);
 
         //Act
-        var contractId = contractCase.CreateNewcontract(template, bankOperator.Id, counteragent.Id); //1)
-        var completedContract = contractCase.CompleteContract(counteragent.Id, contractId);//2)
+        var contractId = await contractCase.CreateNewcontract(template, bankOperator.Id, counteragent.Id); //1)
+        var completedContract = await contractCase.CompleteContract(counteragent.Id, contractId);//2)
         //фронт показывает тело контракта клиенту и ожидает нажатия на кнопку "Одобрить"
         //если кнопка "Одобрить" была нажата - вызываем метод СonfirmAcquaintance
-        contractCase.СonfirmAcquaintance(counteragent.Id, contractId); //3)
-        contractCase.SignContract(signer.Id, contractId);//4)
+        await contractCase.СonfirmAcquaintance(counteragent.Id, contractId); //3)
+        await contractCase.SignContract(signer.Id, contractId);//4)
 
-        var contract = _unitOfWork.Contracts.Get(c => c.Id == contractId);
+        var contract = await _unitOfWork.Contracts.GetAsync(c => c.Id == contractId);
         //Assert
         Assert.Equal(5, contract.History.Count);
     }

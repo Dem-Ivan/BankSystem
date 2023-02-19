@@ -17,9 +17,9 @@ public class RegisterEmployeeCase
         _mapper = mapper;
     }
 
-    public EmployeeResponse Get(Guid employeeId)
+    public async Task<EmployeeResponse> Get(Guid employeeId)
     {
-        var employee = _unitOfWork.Employees.Get(employeeId);
+        var employee = await _unitOfWork.Employees.GetAsync(employeeId);
         if (employee == null)
         {
             throw new NotFoundException($"Сотрудник с идентификатором {employeeId} не зарегистрирован в системе.");
@@ -30,31 +30,14 @@ public class RegisterEmployeeCase
         return mappedEmployee;
     }
 
-    public Guid AddEmployee(EmployeeRequest employee)
+    public async Task<Guid> AddEmployee(EmployeeRequest employee)
     {
         var mappedEmployee = _mapper.Map<Employee>(employee);
         mappedEmployee.CreationDate = DateTime.UtcNow.Date;
 
-        _unitOfWork.Employees.Add(mappedEmployee);
-        _unitOfWork.Save();
+        await _unitOfWork.Employees.AddAsync(mappedEmployee);
+        await _unitOfWork.SaveAsync();
 
         return mappedEmployee.Id;
-    }
-
-    public void DeleteEmploye(Guid employeeId)
-    {
-        var employee = _unitOfWork.Employees.Get(employeeId);
-        if (employee == null)
-        {
-            throw new NotFoundException($"Сотрудник с идентификатором {employeeId} не зарегистрирован в системе.");
-        }
-
-        employee.DeletedDate = DateTime.UtcNow.Date;
-        _unitOfWork.Save();
-    }
-
-    public void UpdateEmploye(EmployeeRequest employee)
-    {
-
-    }
+    }   
 }

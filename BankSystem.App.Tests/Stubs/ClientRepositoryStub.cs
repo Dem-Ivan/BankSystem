@@ -7,13 +7,13 @@ public class ClientRepositoryStub : IClientRepository
 {
     private Client _client;
 
-    public void Add(Client client)
+    public async Task AddAsync(Client client)
     {
         _client = client;
-    }    
+    }
 
-    public Client Get(Guid clientId)
+    public async Task<Client> GetAsync(Guid clientId)
     {
         return _client;
-    }
+    }   
 }

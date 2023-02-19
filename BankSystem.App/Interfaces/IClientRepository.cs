@@ -4,6 +4,6 @@ namespace BankSystem.App.Interfaces;
 
 public interface IClientRepository
 {
-    Client Get(Guid clientId);
-    void Add(Client client);        
+    Task<Client> GetAsync(Guid clientId);
+    Task AddAsync(Client client);        
 }
