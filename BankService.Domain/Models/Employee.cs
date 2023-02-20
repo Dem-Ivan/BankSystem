@@ -19,12 +19,7 @@ public class Employee
     public string Name
     {
         private init
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new InvalidPersonDataException("Имя сотрудника обязательно.");
-            }
-
+        {     
             _name = value;
         }
         get => _name;
@@ -33,12 +28,7 @@ public class Employee
     public int Age
     {
         private init
-        {
-            if (value < 18)
-            {
-                throw new InvalidPersonDataException("Минимальный возраст сотрудника равен 18 годам.");
-            }
-
+        {   
             _age = value;
         }
         get => _age;

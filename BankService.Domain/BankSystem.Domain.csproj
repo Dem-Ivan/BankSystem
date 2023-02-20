@@ -5,4 +5,8 @@
     <LangVersion>11</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.5.0" />
+  </ItemGroup>
+
 </Project>

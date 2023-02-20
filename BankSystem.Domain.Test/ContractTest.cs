@@ -14,11 +14,11 @@ public class ContractTest
         var bankOperator = new Employee(33, "Петрова", Role.OrdinaryEmployee);
         var signer = new Employee(45, "Эдуард Степанович", Role.Director);
         var template = ContractTemplate.GetInstance();
-        template.SignerRole = Role.Director;
+        template.SignerRole = Role.Director;        
 
         //Act
         var contract = template.GetNewContract(bankOperator, counteragent); // 1)создан
-        contract.Сomplete(counteragent); //2)запонен
+        contract.Сomplete(); //2)заполнен
         contract.SendforAcquaintance(); //3) отправлен на ознакомление
         contract.Cquaint(counteragent); //4) контрагент подтвердил (ознакомился) новый статус "на подписание"
         contract.Sign(signer); //5) подписан

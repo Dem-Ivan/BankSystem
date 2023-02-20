@@ -58,7 +58,7 @@ public class ContractCase
             throw new NotFoundException($"Контракт с идентификатором {contractId} не зарегистрирован в системе или у него не подходящий статус.");
         }
 
-        contract.Сomplete(counteragent);
+        contract.Сomplete();
         await _unitOfWork.Contracts.AddContractHistoryElementAsync(contract.History.LastOrDefault());
         contract.SendforAcquaintance();
         await _unitOfWork.Contracts.AddContractHistoryElementAsync(contract.History.LastOrDefault());

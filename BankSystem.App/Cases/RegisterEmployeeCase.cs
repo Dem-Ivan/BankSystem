@@ -3,6 +3,8 @@ using BankSystem.App.DTO;
 using BankSystem.App.Exceptions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
+using BankSystem.Domain.Validators;
+using FluentValidation;
 
 namespace BankSystem.App.Cases;
 
@@ -10,11 +12,13 @@ public class RegisterEmployeeCase
 {
     private IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private EmployeeValidator _employeeValidator;
 
-    public RegisterEmployeeCase(IUnitOfWork unitOfWork, IMapper mapper)
+    public RegisterEmployeeCase(IUnitOfWork unitOfWork, IMapper mapper, EmployeeValidator employeeValidator)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _employeeValidator = employeeValidator;
     }
 
     public async Task<EmployeeResponse> Get(Guid employeeId)
@@ -33,6 +37,8 @@ public class RegisterEmployeeCase
     public async Task<Guid> AddEmployee(EmployeeRequest employee)
     {
         var mappedEmployee = _mapper.Map<Employee>(employee);
+        _employeeValidator.ValidateAndThrow(mappedEmployee);
+
         mappedEmployee.CreationDate = DateTime.UtcNow.Date;
 
         await _unitOfWork.Employees.AddAsync(mappedEmployee);

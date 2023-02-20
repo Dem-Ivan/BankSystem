@@ -2,6 +2,7 @@
 using BankSystem.App.Cases;
 using BankSystem.App.Interfaces;
 using BankSystem.App.Mapping;
+using BankSystem.Domain.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,9 @@ public class Startup
                 optionBuilder.MigrationsAssembly(typeof(BankSystemDbContext).Assembly.GetName().Name);
             });
         });
+        services.AddScoped<ClientValidator>();
+        services.AddScoped<EmployeeValidator>();
+        services.AddScoped<ContractValidator>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

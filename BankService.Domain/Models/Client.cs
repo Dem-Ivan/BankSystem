@@ -11,29 +11,15 @@ public class Client
 
     public string Name
     {
-        init
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new InvalidPersonDataException("Имя клиента обязательно.");
-            }
-
-            _name = value;
-        }
+        init => _name = value;
+       
         get => _name;
     }
 
     public int Age
     {
-        init
-        {
-            if (value < 18)
-            {
-                throw new InvalidPersonDataException("Минимальный возраст клиента равен 18 годам.");
-            }
-
-            _age = value;
-        }
+        init => _age = value;
+        
         get => _age;
     }
 

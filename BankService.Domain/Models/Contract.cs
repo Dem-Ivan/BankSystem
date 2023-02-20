@@ -1,5 +1,7 @@
 ﻿using BankSystem.Domain.Exceptions;
 using BankSystem.Domain.Models.Templates;
+using BankSystem.Domain.Validators;
+using FluentValidation;
 
 namespace BankSystem.Domain.Models;
 
@@ -9,7 +11,7 @@ public class Contract
     private string _body;
     private ContractTemplate _template;
     private List<ContractHistoryElement> _historyItems;
-    private Client _counteragent;
+    private Client _counteragent; 
 
     public Guid Id { get; } = Guid.NewGuid();
 
@@ -70,8 +72,12 @@ public class Contract
         UpdateHistory();
     }
 
-    public void Сomplete(Client counteragent)
+    public void Сomplete()
     {
+        //_validationRules.ExpectedStatus = Status.Created;
+        var validationRules = new ContractValidator(Status.Created);
+        validationRules.ValidateAndThrow(this);
+
         _body = $"Контракт с {_counteragent.Name} заключен {DateTime.Now}.";
         _status = Status.Completed;
 
@@ -80,13 +86,21 @@ public class Contract
 
     public void SendforAcquaintance()
     {
+        //_validationRules.ExpectedStatus = Status.Completed;
+        var validationRules = new ContractValidator(Status.Completed);
+        validationRules.ValidateAndThrow(this);
+
         _status = Status.ForAcquaintance;
         UpdateHistory();
     }
 
     public void Cquaint(Client client)
     {
-        if (!_body.Contains(client.Name))
+        //_validationRules.ExpectedStatus = Status.ForAcquaintance;
+        var validationRules = new ContractValidator(Status.ForAcquaintance);
+        validationRules.ValidateAndThrow(this);
+
+        if (!_body.Contains(client.Name))//TODO: 
         {
             throw new InvalidAccessException("Подтвердить факт ознакомления с контрактом " +
                                              "может только пользователь с которым контракт заключается!");
@@ -99,6 +113,10 @@ public class Contract
 
     public void Sign(Employee signer)
     {
+        //_validationRules.ExpectedStatus = Status.ForSigning;
+        var validationRules = new ContractValidator(Status.ForSigning);
+        validationRules.ValidateAndThrow(this);
+
         if (signer.Role != SignerRole)
         {
             throw new InvalidRoleException($"Подписать договор может только сотрудник с ролью {SignerRole}");
