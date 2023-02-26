@@ -1,10 +1,4 @@
-﻿using AutoMapper;
-using BankSystem.App.Cases;
-using BankSystem.App.Mapping;
-using BankSystem.App.Tests.Stubs;
-using BankSystem.Domain.Models;
-using BankSystem.Domain.Models.Templates;
-using Xunit;
+﻿using BankSystem.App.Tests.Stubs;
 
 namespace BankSystem.App.Tests;
 
@@ -32,9 +26,8 @@ public class ContractCaseTest
         await _employeeRepository.AddAsync(signer);
         _unitOfWork = new UnitOfWorkStub(_employeeRepository, _clientRepository,_contractRepository);
         template.SignerRole = Role.Director;
-
-        //TODO
-        ContractCase contractCase = new ContractCase(_unitOfWork, _mapper);
+        
+        var contractCase = new ContractCase(_unitOfWork, _mapper);
 
         //Act
         var contractId = await contractCase.CreateNewcontract(template, bankOperator.Id, counteragent.Id); //1)

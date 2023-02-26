@@ -14,9 +14,10 @@ public class ContractRepository : IContractRepository
         _bankSystemDbContext = bankSystemDbContext;
     }
 
-    public async Task<Contract> GetAsync(Expression<Func<Contract, bool>> exception)
+    public async Task<Contract> GetAsync(Expression<Func<Contract, bool>> expression)
     {
-        return await _bankSystemDbContext.Contract.Include(c => c.History).FirstOrDefaultAsync(exception).ConfigureAwait(false);
+        return await _bankSystemDbContext.Contract.Include(c => c.History)
+            .FirstOrDefaultAsync(expression).ConfigureAwait(false);
    
     }
 
