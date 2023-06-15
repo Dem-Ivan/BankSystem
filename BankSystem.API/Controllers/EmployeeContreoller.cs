@@ -8,7 +8,7 @@ namespace BankSystem.API.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class EmployeeController : ControllerBase
-{   
+{
     ContractTemplate _template = ContractTemplate.GetInstance();
 
     [HttpGet]
@@ -39,4 +39,12 @@ public class EmployeeController : ControllerBase
 
         return Ok();
     }
+
+    [HttpPost("NotifyEmployee")]
+    public async Task<IActionResult> NotifyEmployee([FromQuery] Guid employeeId, string messageSubject, [FromBody] string messageBody, [FromServices] EmailNotificationCase emailNotification)
+    {
+        emailNotification.PushMessageToEmployeeAsync(employeeId, messageSubject, messageBody);
+        return Ok();
+    }
+
 }

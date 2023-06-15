@@ -13,9 +13,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BankService.Domain\BankSystem.Domain.csproj" />
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Options\" />
     <Folder Include="Specifications\Client\" />
     <Folder Include="Specifications\Employee\" />
   </ItemGroup>

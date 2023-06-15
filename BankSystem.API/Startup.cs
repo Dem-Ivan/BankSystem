@@ -1,4 +1,6 @@
-﻿using BankSystem.API.Repositories;
+﻿using BankSystem.API.Options;
+using BankSystem.API.Producers;
+using BankSystem.API.Repositories;
 using BankSystem.App.Cases;
 using BankSystem.App.Interfaces;
 using BankSystem.App.Mapping;
@@ -33,10 +35,12 @@ public class Startup
         services.AddAutoMapper(typeof(MainProfile));
         services.AddScoped<RegisterEmployeeCase>();
         services.AddScoped<RegisterClientCase>();
+        services.AddScoped<EmailNotificationCase>();
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IContractRepository, ContractRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IRabbitProducer, RabbitProducer>();
         services.AddScoped<ContractCase>();
         services.AddDbContext<BankSystemDbContext>(builder =>
         {
@@ -47,7 +51,8 @@ public class Startup
         });
         services.AddScoped<ClientValidator>();
         services.AddScoped<EmployeeValidator>();
-        services.AddScoped<ContractValidator>();
+        //services.AddScoped<ContractValidator>(); //TODO:  нигде не инжектится. Тут есть проблема связанная с параметризацией конструктора
+        services.Configure<RabbitOptions>(c => Configuration.GetSection(nameof(RabbitOptions)).Bind(c));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
