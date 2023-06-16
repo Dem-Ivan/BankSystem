@@ -43,7 +43,14 @@ public class EmployeeController : ControllerBase
     [HttpPost("NotifyEmployee")]
     public async Task<IActionResult> NotifyEmployee([FromQuery] Guid employeeId, string messageSubject, [FromBody] string messageBody, [FromServices] EmailNotificationCase emailNotification)
     {
-        emailNotification.PushMessageToEmployeeAsync(employeeId, messageSubject, messageBody);
+        await emailNotification.PushMessageToEmployeeAsync(employeeId, messageSubject, messageBody);
+        return Ok();
+    }
+
+    [HttpPost("NotifyClients")]
+    public async Task<IActionResult> NotifyClients([FromQuery] Guid[] clientsId, string messageSubject, [FromBody] string messageBody, [FromServices] EmailNotificationCase emailNotification)
+    {
+        await emailNotification.PushMessagesToClientsAsync(clientsId, messageSubject, messageBody);
         return Ok();
     }
 

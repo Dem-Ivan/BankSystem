@@ -5,7 +5,9 @@
     "Host": "smtp.gmail.com",
     "Port": 587,
     "AttemptCount": 3,
-    "From": "DEX"
+    "From": "BankSistemNotification",
+    "ConnectTimeout": 2000,
+    "SendTimeout" :  1000
   },
   "RabbitOptions": {
     "HostName": "localhost",

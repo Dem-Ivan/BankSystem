@@ -1,4 +1,4 @@
-﻿using ConsoleConsumer.Exceptions;
+﻿using Notification.Exceptions;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;

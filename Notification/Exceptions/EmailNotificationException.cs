@@ -1,6 +1,5 @@
-﻿using System;
-
-namespace ConsoleConsumer.Exceptions
+﻿
+namespace Notification.Exceptions
 {
     public class EmailNotificationException : Exception
     {

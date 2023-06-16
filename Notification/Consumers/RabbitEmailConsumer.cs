@@ -35,11 +35,11 @@ internal class RabbitEmailConsumer : IDisposable
             var content = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
             var deserializedMessage = JsonConvert.DeserializeObject<EmailMessageCommand>(content);
 
-            Console.WriteLine($"Потребитель {nameof(MassTransitEmailConsumer)} получил команду на отправку сообщения");
+            Console.WriteLine($"Потребитель {nameof(RabbitEmailConsumer)} получил команду на отправку сообщения");
 
             await _emailSender.SendAsync(deserializedMessage.Heading, deserializedMessage.MessageText, deserializedMessage.Email, stoppingToken);
 
-            Console.WriteLine($"Потребитель {nameof(MassTransitEmailConsumer)} отрпавил письмо с текстом: {deserializedMessage.MessageText} на адрес {deserializedMessage.Email}");
+            Console.WriteLine($"Потребитель {nameof(RabbitEmailConsumer)} отрпавил письмо с текстом: {deserializedMessage.MessageText} на адрес {deserializedMessage.Email}");
 
             _channel.BasicAck(eventArgs.DeliveryTag, false);
         };

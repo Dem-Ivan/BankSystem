@@ -5,6 +5,7 @@ using BankSystem.App.Cases;
 using BankSystem.App.Interfaces;
 using BankSystem.App.Mapping;
 using BankSystem.Domain.Validators;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,25 +24,31 @@ public class Startup
     }
 
     public IConfiguration Configuration { get; }
-
-    // This method gets called by the runtime. Use this method to add services to the container.
+  
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers();
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "BankSystem.API", Version = "v1" });
-        });
+        services.AddControllers();       
         services.AddAutoMapper(typeof(MainProfile));
+        services.Configure<RabbitOptions>(c => Configuration.GetSection(nameof(RabbitOptions)).Bind(c));
+
         services.AddScoped<RegisterEmployeeCase>();
         services.AddScoped<RegisterClientCase>();
+        services.AddScoped<ContractCase>();
         services.AddScoped<EmailNotificationCase>();
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IContractRepository, ContractRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IRabbitProducer, RabbitProducer>();
-        services.AddScoped<ContractCase>();
+        services.AddScoped<IRabbitProducer, RabbitProducer>();       
+        services.AddScoped<IMassTransitProducer, MassTransitProducer>();        
+        services.AddScoped<ClientValidator>();
+        services.AddScoped<EmployeeValidator>();               
+       
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "BankSystem.API", Version = "v1" });
+        });
+       
         services.AddDbContext<BankSystemDbContext>(builder =>
         {
             builder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), optionBuilder =>
@@ -49,13 +56,16 @@ public class Startup
                 optionBuilder.MigrationsAssembly(typeof(BankSystemDbContext).Assembly.GetName().Name);
             });
         });
-        services.AddScoped<ClientValidator>();
-        services.AddScoped<EmployeeValidator>();
-        //services.AddScoped<ContractValidator>(); //TODO:  нигде не инжектится. Тут есть проблема связанная с параметризацией конструктора
-        services.Configure<RabbitOptions>(c => Configuration.GetSection(nameof(RabbitOptions)).Bind(c));
-    }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        services.AddMassTransit(x =>
+        {            
+            x.UsingRabbitMq((context, cfg) =>
+            {               
+                cfg.ConfigureEndpoints(context);
+            });            
+        });       
+    }
+       
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
