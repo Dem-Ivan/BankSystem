@@ -34,7 +34,7 @@ public class Startup
         services.AddScoped<RegisterEmployeeCase>();
         services.AddScoped<RegisterClientCase>();
         services.AddScoped<ContractCase>();
-        services.AddScoped<EmailNotificationCase>();
+        services.AddScoped<NotificationCase>();
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IContractRepository, ContractRepository>();

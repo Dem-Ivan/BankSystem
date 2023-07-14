@@ -5,13 +5,13 @@ using BankSystem.Domain.Models;
 using Contracts;
 
 namespace BankSystem.App.Cases;
-public class EmailNotificationCase
+public class NotificationCase
 {
     private IRabbitProducer _rabbitProducer;
     IMassTransitProducer _massTransitProducer;
     private IUnitOfWork _unitOfWork;
 
-    public EmailNotificationCase(IRabbitProducer rabbitProducer, IMassTransitProducer massTransitProducer, IUnitOfWork unitOfWork)
+    public NotificationCase(IRabbitProducer rabbitProducer, IMassTransitProducer massTransitProducer, IUnitOfWork unitOfWork)
     {
         _rabbitProducer = rabbitProducer ?? throw new ArgumentNullException(nameof(rabbitProducer));
         _massTransitProducer = massTransitProducer ?? throw new ArgumentNullException(nameof(massTransitProducer));

@@ -41,16 +41,16 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPost("NotifyEmployee")]
-    public async Task<IActionResult> NotifyEmployee([FromQuery] Guid employeeId, string messageSubject, [FromBody] string messageBody, [FromServices] EmailNotificationCase emailNotification)
+    public async Task<IActionResult> NotifyEmployee([FromQuery] Guid employeeId, string messageSubject, [FromBody] string messageBody, [FromServices] NotificationCase notification)
     {
-        await emailNotification.PushMessageToEmployeeAsync(employeeId, messageSubject, messageBody);
+        await notification.PushMessageToEmployeeAsync(employeeId, messageSubject, messageBody);
         return Ok();
     }
 
     [HttpPost("NotifyClients")]
-    public async Task<IActionResult> NotifyClients([FromQuery] Guid[] clientsId, string messageSubject, [FromBody] string messageBody, [FromServices] EmailNotificationCase emailNotification)
+    public async Task<IActionResult> NotifyClients([FromQuery] Guid[] clientsId, string messageSubject, [FromBody] string messageBody, [FromServices] NotificationCase notification)
     {
-        await emailNotification.PushMessagesToClientsAsync(clientsId, messageSubject, messageBody);
+        await notification.PushMessagesToClientsAsync(clientsId, messageSubject, messageBody);
         return Ok();
     }
 
