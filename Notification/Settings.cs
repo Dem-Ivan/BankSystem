@@ -25,6 +25,9 @@ internal class Settings
             x.UsingRabbitMq((context, cfg) =>
             {        
                 cfg.ConfigureEndpoints(context);
+
+                cfg.PrefetchCount = 10;// Количество сообщений, которые будут получены за раз
+                cfg.ConcurrentMessageLimit = 5;// Количество сообщений, которые будут обрабатываться одновременно
             });
         });
 
