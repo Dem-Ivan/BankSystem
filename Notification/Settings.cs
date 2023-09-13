@@ -28,6 +28,7 @@ internal class Settings
 
                 cfg.PrefetchCount = 10;// Количество сообщений, которые будут получены за раз
                 cfg.ConcurrentMessageLimit = 5;// Количество сообщений, которые будут обрабатываться одновременно
+                cfg.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(2))); //Настройка повторной обработки сообщений 3 раза с интервалом 2 сек.                               
             });
         });
 
