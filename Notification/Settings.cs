@@ -26,9 +26,14 @@ internal class Settings
             {        
                 cfg.ConfigureEndpoints(context);
 
-                cfg.PrefetchCount = 10;// Количество сообщений, которые будут получены за раз
-                cfg.ConcurrentMessageLimit = 5;// Количество сообщений, которые будут обрабатываться одновременно
-                cfg.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(2))); //Настройка повторной обработки сообщений 3 раза с интервалом 2 сек.                               
+                cfg.PrefetchCount = 3;// Количество сообщений, которые будут получены за раз
+                cfg.ConcurrentMessageLimit = 2;// Количество сообщений, которые будут обрабатываться одновременно
+                
+                cfg.UseMessageRetry(r =>
+                {                    
+                    r.Handle<RequestTimeoutException>();//если тип ошибки 408 отрабатывает повторная отаравка по следующей настройке
+                    r.Interval(1, TimeSpan.FromSeconds(2));//Настройка повторной обработки сообщений 3 раза с интервалом 2 сек если тип ошибки 408                                   
+                });                 
             });
         });
 

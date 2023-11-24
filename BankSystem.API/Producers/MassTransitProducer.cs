@@ -24,6 +24,6 @@ public class MassTransitProducer : IMassTransitProducer
     private int GetTimeToProcessing()
     {
         var rand = new Random();
-        return rand.Next(1000, 10000);
+        return rand.Next(1000, 5000);
     }
 }

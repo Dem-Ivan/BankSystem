@@ -7,7 +7,7 @@
     "AttemptCount": 3,
     "From": "BankSistemNotification",
     "ConnectTimeout": 2000,
-    "SendTimeout" :  1000
+    "SendTimeout" :  6000
   },
   "RabbitOptions": {
     "HostName": "localhost",

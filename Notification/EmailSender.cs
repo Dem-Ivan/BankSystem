@@ -4,6 +4,7 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Notification.Options;
+using MassTransit;
 
 namespace Notification;
 internal class EmailSender : IEmailSender
@@ -51,6 +52,9 @@ internal class EmailSender : IEmailSender
 
             using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
             {
+                //throw new RequestTimeoutException();//Имимтация исключения 408
+                //throw new ArgumentNullException();//Имитация исключения 500
+                
                 cts.CancelAfter(Math.Max(_defaultTimeout, _options.SendTimeout));//TODO: SendTimeout в EmailOptions нету!
                 await client.SendAsync(emailMessage, cts.Token);
                 await client.DisconnectAsync(true, cts.Token);
@@ -61,9 +65,9 @@ internal class EmailSender : IEmailSender
             throw new TimeoutException(
                                $"Timeout [{_defaultTimeout}], when sending email to {toAddress}, server: {_options.Host}");
         }
-        catch (Exception ex) when (ex is not OperationCanceledException)
+        /*catch (Exception ex) when (ex is not OperationCanceledException)
         {
             throw new EmailNotificationException("Failed to send E-Mail by SMPT.", ex);
-        }
+        }*/
     }
 }
