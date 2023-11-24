@@ -1,4 +1,10 @@
-﻿using BankSystem.App.Tests.Stubs;
+﻿using AutoMapper;
+using BankSystem.App.Cases;
+using BankSystem.App.Mapping;
+using BankSystem.App.Tests.Stubs;
+using BankSystem.Domain.Models;
+using BankSystem.Domain.Models.Templates;
+using Xunit;
 
 namespace BankSystem.App.Tests;
 

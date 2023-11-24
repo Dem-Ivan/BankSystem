@@ -1,0 +1,16 @@
+﻿{
+  "EmailOptions": {
+    "FromEmail": "sender@dextechnology.com",
+    "Password": "wCC-zpz-5T9-HrX",
+    "Host": "smtp.gmail.com",
+    "Port": 587,
+    "AttemptCount": 3,
+    "From": "BankSistemNotification",
+    "ConnectTimeout": 2000,
+    "SendTimeout" :  6000
+  },
+  "RabbitOptions": {
+    "HostName": "localhost",
+    "QueueName": "BankQueue"
+  }
+}

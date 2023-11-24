@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32901.82
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.Domain", "BankService.Domain\BankSystem.Domain.csproj", "{BB1B41CE-188C-42D6-A443-115DCFA0D130}"
 EndProject
@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.API", "BankSyste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.App.Tests", "BankSystem.App.Tests\BankSystem.App.Tests.csproj", "{62E25F90-DF26-40B7-9931-1FD11C0CBCA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankSystem.Infrastructure.Test", "BankSystem.Infrastructure.Test\BankSystem.Infrastructure.Test.csproj", "{207FC2C4-F46E-4858-8044-5FF5F1967FED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.Infrastructure.Test", "BankSystem.Infrastructure.Test\BankSystem.Infrastructure.Test.csproj", "{207FC2C4-F46E-4858-8044-5FF5F1967FED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification", "Notification\Notification.csproj", "{F7E0A2DB-C008-446A-A787-C951ED7E564B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{10BC9AFB-0602-4695-A08D-4B1294510CD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{207FC2C4-F46E-4858-8044-5FF5F1967FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{207FC2C4-F46E-4858-8044-5FF5F1967FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{207FC2C4-F46E-4858-8044-5FF5F1967FED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7E0A2DB-C008-446A-A787-C951ED7E564B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7E0A2DB-C008-446A-A787-C951ED7E564B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7E0A2DB-C008-446A-A787-C951ED7E564B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7E0A2DB-C008-446A-A787-C951ED7E564B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10BC9AFB-0602-4695-A08D-4B1294510CD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10BC9AFB-0602-4695-A08D-4B1294510CD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10BC9AFB-0602-4695-A08D-4B1294510CD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10BC9AFB-0602-4695-A08D-4B1294510CD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +74,7 @@ Global
 		{E157F25E-4AA9-48DE-975D-2BF29506C79A} = {9AEE8368-1254-47E7-9832-9BDBCE2524BA}
 		{62E25F90-DF26-40B7-9931-1FD11C0CBCA9} = {CC271144-5ECE-400C-940D-6D217FA67FEB}
 		{207FC2C4-F46E-4858-8044-5FF5F1967FED} = {9AEE8368-1254-47E7-9832-9BDBCE2524BA}
+		{F7E0A2DB-C008-446A-A787-C951ED7E564B} = {9AEE8368-1254-47E7-9832-9BDBCE2524BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FF15F96-FB85-40FC-B8A8-FF52B166A489}
