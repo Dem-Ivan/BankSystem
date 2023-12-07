@@ -20,5 +20,15 @@ public class ContractRepositoryStub : IContractRepository
     public async Task<Contract> GetAsync(Expression<Func<Contract, bool>> exception)
     {
         return _contract;
-    }    
+    }
+
+    public Task<int> GetLastContractNumberAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Contract>> GetUnSignedContracts()
+    {
+        throw new NotImplementedException();
+    }
 }

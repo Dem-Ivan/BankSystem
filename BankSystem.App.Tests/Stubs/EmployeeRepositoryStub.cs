@@ -14,5 +14,10 @@ public class EmployeeRepositoryStub : IEmployeeRepository
     public async Task<Employee> GetAsync(Guid employeeId)
     {
         return _employees.FirstOrDefault(x => x.Id == employeeId);
-    }   
+    }
+
+    public Task<Employee> GetAsync(Role employeeRole)
+    {
+        throw new NotImplementedException();
+    }
 }

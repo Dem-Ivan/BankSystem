@@ -18,7 +18,16 @@ public class ContractRepository : IContractRepository
     {
         return await _bankSystemDbContext.Contract.Include(c => c.History)
             .FirstOrDefaultAsync(expression).ConfigureAwait(false);
-   
+    }
+
+    public async Task<IEnumerable<Contract>> GetUnSignedContracts()
+    {
+        return await _bankSystemDbContext.Contract.Where(c => c.Status == Status.ForSigning && c.DeletedDate == null).ToListAsync();
+    }
+
+    public async Task<int> GetLastContractNumberAsync()
+    {
+        return  await _bankSystemDbContext.Contract.MaxAsync(c => c.Number);
     }
 
     public async Task AddAsync(Contract contract)
