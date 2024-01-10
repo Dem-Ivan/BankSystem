@@ -1,5 +1,6 @@
 ﻿using BankSystem.API.Options;
 using BankSystem.API.Producers;
+using BankSystem.API.QuatzExtensions;
 using BankSystem.API.Repositories;
 using BankSystem.App.Cases;
 using BankSystem.App.Interfaces;
@@ -62,8 +63,10 @@ public class Startup
             x.UsingRabbitMq((context, cfg) =>
             {               
                 cfg.ConfigureEndpoints(context);
-            });            
-        });       
+            });
+        });
+
+        services.QuartzJobsRegistering(Configuration);
     }
        
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

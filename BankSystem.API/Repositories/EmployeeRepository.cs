@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain.Models;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankSystem.API.Repositories;
@@ -23,5 +24,10 @@ public class EmployeeRepository : IEmployeeRepository
     public async Task AddAsync(Employee employee)
     {
         await _bankSystemDbContext.Employee.AddAsync(employee).ConfigureAwait(false);
-    }      
+    }
+
+    public async Task<Employee> GetAsync(Role employeeRole)
+    {
+        return await _bankSystemDbContext.Employee.FirstOrDefaultAsync(e => e.Role == employeeRole);
+    }
 }

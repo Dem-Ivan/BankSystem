@@ -15,6 +15,7 @@ public class Contract
 
     public Guid Id { get; } = Guid.NewGuid();
 
+    public int Number { get; set; }
     public Status Status
     {
         init => _status = value;

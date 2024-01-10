@@ -38,6 +38,7 @@ public class ContractCase
 
         var contract =  template.GetNewContract(author, counteragent);
         contract.CreationDate = DateTime.UtcNow.Date;
+        contract.Number = await _unitOfWork.Contracts.GetLastContractNumberAsync() + 1;
         await _unitOfWork.Contracts.AddAsync(contract);
         await _unitOfWork.SaveAsync();
 
