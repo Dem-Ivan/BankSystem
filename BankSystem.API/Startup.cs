@@ -66,7 +66,7 @@ public class Startup
             });
         });
 
-        services.QuartzJobsRegistering(Configuration);//TODO
+        services.QuartzJobsRegistering(Configuration);
     }
        
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

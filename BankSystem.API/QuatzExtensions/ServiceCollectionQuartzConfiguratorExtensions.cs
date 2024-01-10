@@ -4,7 +4,9 @@ using Quartz;
 namespace BankSystem.API.QuatzExtensions;
 public static class ServiceCollectionQuartzConfiguratorExtensions
 {
-    public static void AddJobAndTrigger<T>(this IServiceCollectionQuartzConfigurator quartzConfigurator, IConfiguration config) where T : IJob
+    public static void AddJobAndTrigger<T>(
+        this IServiceCollectionQuartzConfigurator quartzConfigurator,
+        IConfiguration config) where T : IJob
     {
        
         string jobName = typeof(T).Name;
@@ -13,7 +15,8 @@ public static class ServiceCollectionQuartzConfiguratorExtensions
         
         if (string.IsNullOrEmpty(cronSchedule))
         {
-            throw new Exception($"Не найдены настройки конфигурации планировщика Quartz.NET Cron с ключем {configKey}");
+            throw new Exception($"Не найдены настройки конфигурации " +
+                $"планировщика Quartz.NET Cron с ключем {configKey}");
         }
 
         var jobKey = new JobKey(jobName);

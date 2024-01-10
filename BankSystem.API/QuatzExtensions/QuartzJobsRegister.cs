@@ -6,7 +6,9 @@ using Quartz;
 namespace BankSystem.API.QuatzExtensions;
 public static class QuartzJobsRegister
 {
-    public static IServiceCollection QuartzJobsRegistering(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection QuartzJobsRegistering(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddQuartz(q =>
         {

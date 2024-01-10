@@ -8,7 +8,9 @@ public class SignContractReminderJob : IJob
     private IMassTransitProducer _massTransitProducer;
     private IUnitOfWork _unitOfWork;
 
-    public SignContractReminderJob(IRabbitProducer rabbitProducer, IMassTransitProducer massTransitProducer, IUnitOfWork unitOfWork)
+    public SignContractReminderJob(IRabbitProducer rabbitProducer,
+        IMassTransitProducer massTransitProducer,
+        IUnitOfWork unitOfWork)
     {        
         _massTransitProducer = massTransitProducer ?? throw new ArgumentNullException(nameof(massTransitProducer));
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
